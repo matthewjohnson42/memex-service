@@ -1,8 +1,8 @@
 package com.matthewjohnson42.personalMemexService.web.controller;
 
+import com.matthewjohnson42.personalMemexService.data.dto.IdListDTO;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDTO;
-import com.matthewjohnson42.personalMemexService.data.dto.RawTextSummaryDTO;
-import com.matthewjohnson42.personalMemexService.logic.service.RawTextService;
+import com.matthewjohnson42.personalMemexService.data.service.RawTextService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+/**
+ * Web server http request controller for the RawText entity type
+ */
 @RestController
 @RequestMapping("/api/v0/rawText")
 public class RawTextController {
@@ -25,7 +26,7 @@ public class RawTextController {
     }
 
     @GetMapping("/summaries")
-    public List<RawTextSummaryDTO> getAllSummaries() {
+    public IdListDTO getAllSummaries() {
         return rawTextService.getSummaries();
     }
 
@@ -35,8 +36,14 @@ public class RawTextController {
     }
 
     @PostMapping
-    public void post(@Validated @RequestBody RawTextDTO dto) {
-        rawTextService.create(dto);
+    public RawTextDTO create(@Validated @RequestBody RawTextDTO dto) {
+        return rawTextService.create(dto);
+    }
+
+    @PostMapping("/{id}")
+    public RawTextDTO update(@PathVariable String id, @Validated @RequestBody RawTextDTO dto) {
+        dto.setId(id);
+        return rawTextService.update(dto);
     }
 
     @DeleteMapping("/{id}")
