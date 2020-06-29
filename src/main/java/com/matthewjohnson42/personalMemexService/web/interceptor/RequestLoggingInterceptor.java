@@ -7,6 +7,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Implements a logger for all inbound HTTP requests
+ */
 public class RequestLoggingInterceptor implements HandlerInterceptor {
 
     Logger logger = LoggerFactory.getLogger(RequestLoggingInterceptor.class);
