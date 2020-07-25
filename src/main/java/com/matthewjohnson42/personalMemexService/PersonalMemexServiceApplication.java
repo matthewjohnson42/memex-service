@@ -15,4 +15,6 @@ public class PersonalMemexServiceApplication {
 		SpringApplication.run(PersonalMemexServiceApplication.class);
 	}
 
+	// todo add authorization via authenticated credentials
+
 }

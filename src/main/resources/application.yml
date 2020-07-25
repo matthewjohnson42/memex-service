@@ -1,3 +1,7 @@
 mongo:
   host: localhost
-  port: 27020
+  port: 27017
+
+elasticsearch:
+  hostname: localhost
+  port: 9200

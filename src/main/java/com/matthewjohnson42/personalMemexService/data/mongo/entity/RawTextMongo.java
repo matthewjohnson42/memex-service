@@ -1,4 +1,4 @@
-package com.matthewjohnson42.personalMemexService.data.entity;
+package com.matthewjohnson42.personalMemexService.data.mongo.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,15 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Used to specify the structure of the Mongo document.
  */
 @Document(collection="rawText")
-public class RawTextEntity {
+public class RawTextMongo {
 
     @Id
-    public String id;
-    public String text;
+    private String id;
+    private String text;
 
-    public RawTextEntity() { }
+    public RawTextMongo() { }
 
-    public RawTextEntity(String text) {
+    public RawTextMongo(String text) {
         this.text = text;
     }
 
@@ -24,7 +24,7 @@ public class RawTextEntity {
         return id;
     }
 
-    public RawTextEntity setId(String id) {
+    public RawTextMongo setId(String id) {
         this.id = id;
         return this;
     }
@@ -33,7 +33,7 @@ public class RawTextEntity {
         return text;
     }
 
-    public RawTextEntity setText(String text) {
+    public RawTextMongo setText(String text) {
         this.text = text;
         return this;
     }
