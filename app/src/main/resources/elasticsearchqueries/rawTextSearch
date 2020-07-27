@@ -1,0 +1,9 @@
+{
+"function_score": {
+"query": {
+"fuzzy": {
+"textContent": { "value": "?0" }
+}
+}
+}
+}

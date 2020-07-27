@@ -1,0 +1,21 @@
+# docker-compose file for starting a mongo docker container
+version: '3.8'
+services:
+  memex_mongo01:
+    image: memex-mongo:0.0.1
+    container_name: memex-mongo01
+    volumes:
+      - mongo01:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - memex-backend
+
+volumes:
+  mongo01:
+    driver: local
+
+networks:
+  memex-backend:
+    name: memex-backend
+    driver: bridge

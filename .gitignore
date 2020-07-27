@@ -1,3 +1,4 @@
 .idea
 *iml
 target
+scripts/docker-delete.sh
