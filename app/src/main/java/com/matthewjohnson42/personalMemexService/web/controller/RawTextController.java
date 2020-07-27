@@ -4,6 +4,7 @@ import com.matthewjohnson42.personalMemexService.data.dto.IdListDto;
 import com.matthewjohnson42.personalMemexService.data.dto.PageRequestDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchDto;
+import com.matthewjohnson42.personalMemexService.logic.service.DataTransferService;
 import com.matthewjohnson42.personalMemexService.logic.service.RawTextService;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -20,9 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v0/rawText")
 public class RawTextController {
 
+    private DataTransferService dataTransferService;
     private RawTextService rawTextService;
 
-    public RawTextController(RawTextService rawTextService) {
+    public RawTextController(DataTransferService dataTransferService,
+                             RawTextService rawTextService) {
+        this.dataTransferService = dataTransferService;
         this.rawTextService = rawTextService;
     }
 
@@ -59,6 +63,11 @@ public class RawTextController {
     @RequestMapping(method=RequestMethod.POST, value="/search")
     public Page<RawTextDto> search(@RequestBody RawTextSearchDto searchDto) {
         return rawTextService.search(searchDto);
+    }
+
+    @RequestMapping(method=RequestMethod.POST, value="/transferFromMongoToES")
+    public void transferFromMongoToES() {
+        dataTransferService.transferRawTextToES();
     }
 
 }
