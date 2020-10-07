@@ -1,24 +1,12 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.util.StringUtils;
-
 public class PageRequestDto {
 
     private int pageSize;
     private int pageNumber;
     private String sort;
 
-    @JsonCreator
-    PageRequestDto(
-            @JsonProperty(value="pageSize", required=true) int pageSize,
-            @JsonProperty(value="pageNumber", required=true) int pageNumber,
-            @JsonProperty(value="sort", required=false) String sort) {
-        this.pageSize = pageSize;
-        this.pageNumber = pageNumber;
-        this.sort = StringUtils.isEmpty(sort) ? "desc" : sort;
-    }
+    PageRequestDto() { }
 
     public int getPageSize() {
         return pageSize;

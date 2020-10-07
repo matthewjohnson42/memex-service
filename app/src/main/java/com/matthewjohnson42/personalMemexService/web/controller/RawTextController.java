@@ -8,6 +8,7 @@ import com.matthewjohnson42.personalMemexService.logic.service.DataTransferServi
 import com.matthewjohnson42.personalMemexService.logic.service.RawTextService;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Web server http request controller for the RawText entity type
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v0/rawText")
 public class RawTextController {
@@ -51,7 +53,7 @@ public class RawTextController {
     }
 
     @RequestMapping(method=RequestMethod.GET, value="")
-    public Page<RawTextDto> getPage(@RequestBody PageRequestDto pageRequestDto) {
+    public Page<RawTextDto> getPage(PageRequestDto pageRequestDto) {
         return rawTextService.getPage(pageRequestDto);
     }
 

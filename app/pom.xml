@@ -7,7 +7,7 @@
     <artifactId>memex-parent</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>app</artifactId>
+  <artifactId>memex-app</artifactId>
   <version>0.0.1</version>
   <name>Personal Memex Service App</name>
 
