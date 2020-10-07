@@ -5,3 +5,19 @@ mongo:
 elasticsearch:
   hostname: ${ELASTICSEARCH_HOST:localhost}
   port: ${ELASTICSEARCH_PORT:9200}
+
+---
+spring.profiles: dev
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: http://localhost:4200/*
+
+---
+spring.profiles: prod
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: http://matthewjohnson42.com/*
