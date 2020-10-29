@@ -6,13 +6,14 @@ import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchDto;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.service.RawTextESService;
 import com.matthewjohnson42.personalMemexService.data.mongo.service.RawTextMongoService;
+import com.matthewjohnson42.personalMemexService.logic.util.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class RawTextService {
@@ -26,8 +27,10 @@ public class RawTextService {
     }
 
     public RawTextDto create(RawTextDto rawTextDto) {
-        rawTextDto = rawTextMongoService.create(rawTextDto);
-        rawTextESService.update(rawTextDto);
+        LocalDateTime createDateTime = LocalDateTime.now();
+        rawTextDto.setId(StringUtils.randomId());
+        rawTextDto = rawTextMongoService.create(rawTextDto, createDateTime);
+        rawTextESService.create(rawTextDto, createDateTime);
         return rawTextDto;
     }
 
@@ -36,9 +39,10 @@ public class RawTextService {
     }
 
     public RawTextDto update(String id, RawTextDto rawTextDto) {
+        LocalDateTime updateDateTime = LocalDateTime.now();
         rawTextDto.setId(id);
-        rawTextDto = rawTextMongoService.update(rawTextDto);
-        rawTextESService.update(rawTextDto);
+        rawTextDto = rawTextMongoService.update(rawTextDto, updateDateTime);
+        rawTextESService.update(rawTextDto, updateDateTime);
         return rawTextDto;
     }
 
@@ -68,6 +72,10 @@ public class RawTextService {
     public Page<RawTextDto> search(RawTextSearchDto rawTextSearchDto) {
         return rawTextESService.search(
                 rawTextSearchDto.getSearchString(),
+                rawTextSearchDto.getStartCreateDate(),
+                rawTextSearchDto.getEndCreateDate(),
+                rawTextSearchDto.getStartUpdateDate(),
+                rawTextSearchDto.getEndUpdateDate(),
                 PageRequest.of(rawTextSearchDto.getPageNumber(),
                         rawTextSearchDto.getPageSize(),
                         Sort.by(Sort.Direction.DESC, "_score")));
