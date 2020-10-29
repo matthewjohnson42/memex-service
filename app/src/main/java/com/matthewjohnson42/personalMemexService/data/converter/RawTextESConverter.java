@@ -22,6 +22,12 @@ public class RawTextESConverter implements DtoEntityConverter<RawTextDto, RawTex
         if (rawTextES.getTextContent() != null) {
             rawTextDto.setTextContent(rawTextES.getTextContent());
         }
+        if (rawTextES.getCreateDateTime() != null) {
+            rawTextDto.setCreateDateTime(rawTextES.getCreateDateTime());
+        }
+        if (rawTextES.getUpdateDateTime() != null) {
+            rawTextDto.setUpdateDateTime(rawTextES.getUpdateDateTime());
+        }
         return rawTextDto;
     }
 
@@ -33,6 +39,16 @@ public class RawTextESConverter implements DtoEntityConverter<RawTextDto, RawTex
             rawTextES.setTextContent(rawTextDto.getTextContent());
         }
         return rawTextES;
+    }
+
+    public RawTextDto updateFromDto(RawTextDto rawTextDtoA, RawTextDto rawTextDtoB) {
+        if (rawTextDtoB.getId() != null) {
+            rawTextDtoA.setId(rawTextDtoB.getId());
+        }
+        if (rawTextDtoB.getTextContent() != null) {
+            rawTextDtoA.setTextContent(rawTextDtoB.getTextContent());
+        }
+        return rawTextDtoA;
     }
 
 }

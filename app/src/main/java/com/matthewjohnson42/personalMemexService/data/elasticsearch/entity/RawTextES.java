@@ -1,18 +1,19 @@
 package com.matthewjohnson42.personalMemexService.data.elasticsearch.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Document(indexName="rawtext")
+import java.time.LocalDateTime;
+
+/**
+ * Class used to represent the raw text entity as an ElasticSearch entity.
+ * Raw text entity is only text and DB tracking data.
+ */
 public class RawTextES {
 
-    @Id
-    @Field(type=FieldType.Keyword)
     private String id;
-    @Field(type=FieldType.Text, analyzer="simple")
     private String textContent;
+    private LocalDateTime createDateTime;
+    private LocalDateTime updateDateTime;
 
     public RawTextES () { }
 
@@ -31,6 +32,26 @@ public class RawTextES {
 
     public RawTextES setTextContent(String textContent) {
         this.textContent = textContent;
+        return this;
+    }
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public RawTextES setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+        return this;
+    }
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public RawTextES setUpdateDateTime(LocalDateTime updateDateTime) {
+        this.updateDateTime = updateDateTime;
         return this;
     }
 

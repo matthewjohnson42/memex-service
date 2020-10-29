@@ -22,6 +22,12 @@ public class RawTextMongoConverter implements DtoEntityConverter<RawTextDto, Raw
         if (rawTextMongo.getTextContent() != null) {
             rawTextDto.setTextContent(rawTextMongo.getTextContent());
         }
+        if (rawTextMongo.getCreateDateTime() != null) {
+            rawTextDto.setCreateDateTime(rawTextMongo.getCreateDateTime());
+        }
+        if (rawTextMongo.getUpdateDateTime() != null) {
+            rawTextDto.setUpdateDateTime(rawTextMongo.getUpdateDateTime());
+        }
         return rawTextDto;
     }
 
