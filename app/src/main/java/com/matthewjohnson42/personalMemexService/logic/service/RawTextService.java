@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class RawTextService {
@@ -26,8 +26,9 @@ public class RawTextService {
     }
 
     public RawTextDto create(RawTextDto rawTextDto) {
-        rawTextDto = rawTextMongoService.create(rawTextDto);
-        rawTextESService.update(rawTextDto);
+        LocalDateTime createDateTime = LocalDateTime.now();
+        rawTextDto = rawTextMongoService.create(rawTextDto, createDateTime);
+        rawTextESService.create(rawTextDto, createDateTime);
         return rawTextDto;
     }
 
@@ -36,9 +37,9 @@ public class RawTextService {
     }
 
     public RawTextDto update(String id, RawTextDto rawTextDto) {
-        rawTextDto.setId(id);
-        rawTextDto = rawTextMongoService.update(rawTextDto);
-        rawTextESService.update(rawTextDto);
+        LocalDateTime updateDateTime = LocalDateTime.now();
+        rawTextDto = rawTextMongoService.update(rawTextDto, updateDateTime);
+        rawTextESService.update(rawTextDto, updateDateTime);
         return rawTextDto;
     }
 

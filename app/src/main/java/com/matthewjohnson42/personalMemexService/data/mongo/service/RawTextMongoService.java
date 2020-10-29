@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,16 +38,18 @@ public class RawTextMongoService extends DataService<RawTextDto, RawTextMongo> {
         return converter.convertEntity(entity);
     }
 
-    public RawTextDto create(RawTextDto dto) {
+    public RawTextDto create(RawTextDto dto, LocalDateTime createDateTime) {
         RawTextMongo entity = converter.convertDto(dto).setId(null);
+        entity.setCreateDateTime(createDateTime);
         entity = rawTextMongoRepo.save(entity);
         logger.info(String.format("Wrote new rawText object with id %s", entity.getId()));
         return converter.convertEntity(entity);
     }
 
-    public RawTextDto update(RawTextDto dto) {
+    public RawTextDto update(RawTextDto dto, LocalDateTime updateDateTime) {
         RawTextMongo entity = getIfExists(dto.getId());
         entity = converter.updateFromDto(entity, dto);
+        entity.setUpdateDateTime(updateDateTime);
         entity = rawTextMongoRepo.save(entity);
         logger.info(String.format("Updated rawText object with id %s", entity.getId()));
         return converter.convertEntity(entity);

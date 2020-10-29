@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,8 +30,15 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
         return new PageImpl<>(rawTextDtos, rawTextESPage.getPageable(), rawTextESPage.getTotalElements());
     }
 
-    public void update(RawTextDto rawTextDto) {
+    public void create(RawTextDto rawTextDto, LocalDateTime dateTime) {
         RawTextES rawTextES = converter.convertDto(rawTextDto);
+        rawTextES.setCreateDateTime(dateTime);
+        rawTextESRepo.save(rawTextES);
+    }
+
+    public void update(RawTextDto rawTextDto, LocalDateTime updateDateTime) {
+        RawTextES rawTextES = converter.convertDto(rawTextDto);
+        rawTextES.setUpdateDateTime(updateDateTime);
         rawTextESRepo.save(rawTextES);
     }
 
