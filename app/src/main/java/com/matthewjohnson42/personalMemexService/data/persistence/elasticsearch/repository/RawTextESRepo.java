@@ -1,6 +1,6 @@
-package com.matthewjohnson42.personalMemexService.data.elasticsearch.repository;
+package com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.repository;
 
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.entity.RawTextES;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;

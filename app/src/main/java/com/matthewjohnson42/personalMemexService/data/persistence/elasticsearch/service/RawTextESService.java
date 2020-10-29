@@ -1,9 +1,9 @@
-package com.matthewjohnson42.personalMemexService.data.elasticsearch.service;
+package com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.service;
 
-import com.matthewjohnson42.personalMemexService.data.converter.RawTextESConverter;
+import com.matthewjohnson42.personalMemexService.data.converter.rawtext.RawTextConverterESImpl;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRepo;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.entity.RawTextES;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.repository.RawTextESRepo;
 import com.matthewjohnson42.personalMemexService.data.service.DataService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,9 +17,10 @@ import java.util.stream.Collectors;
 public class RawTextESService extends DataService<RawTextDto, RawTextES> {
 
     private RawTextESRepo rawTextESRepo;
+    private RawTextConverterESImpl converter;
 
-    public RawTextESService(RawTextESConverter rawTextESConverter, RawTextESRepo rawTextESRepo) {
-        this.converter = rawTextESConverter;
+    public RawTextESService(RawTextConverterESImpl rawTextConverterESImpl, RawTextESRepo rawTextESRepo) {
+        this.converter = rawTextConverterESImpl;
         this.rawTextESRepo = rawTextESRepo;
     }
 

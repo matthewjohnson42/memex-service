@@ -1,13 +1,13 @@
 package com.matthewjohnson42.personalMemexService.logic.service;
 
-import com.matthewjohnson42.personalMemexService.data.converter.DtoEntityConverter;
-import com.matthewjohnson42.personalMemexService.data.converter.RawTextESConverter;
-import com.matthewjohnson42.personalMemexService.data.converter.RawTextMongoConverter;
+import com.matthewjohnson42.personalMemexService.data.converter.IDtoEntityConverter;
+import com.matthewjohnson42.personalMemexService.data.converter.rawtext.RawTextConverterESImpl;
+import com.matthewjohnson42.personalMemexService.data.converter.rawtext.RawTextConverterMongoImpl;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRepo;
-import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
-import com.matthewjohnson42.personalMemexService.data.mongo.repository.RawTextMongoRepo;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.entity.RawTextES;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.repository.RawTextESRepo;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.entity.RawTextMongo;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.repository.RawTextMongoRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -33,9 +33,9 @@ public class DataTransferService implements ApplicationContextAware {
     public void transferRawTextToES() {
         new MongoToEsTranferrer<RawTextDto, RawTextMongo, RawTextES>(
                 applicationContext.getBean(RawTextMongoRepo.class),
-                applicationContext.getBean(RawTextMongoConverter.class),
+                applicationContext.getBean(RawTextConverterMongoImpl.class),
                 applicationContext.getBean(RawTextESRepo.class),
-                applicationContext.getBean(RawTextESConverter.class),
+                applicationContext.getBean(RawTextConverterESImpl.class),
                 1000
         ).accept();
     }
@@ -48,13 +48,12 @@ public class DataTransferService implements ApplicationContextAware {
     private class MongoToEsTranferrer<D, M, E> {
         Logger logger = LoggerFactory.getLogger(MongoToEsTranferrer.class);
         private MongoRepository<M, String> mongoRepository;
-        private DtoEntityConverter<D, M> mongoDtoConverter;
+        private IDtoEntityConverter<D, M> mongoDtoConverter;
         private ElasticsearchRepository<E, String> elasticsearchRepository;
-        private DtoEntityConverter<D, E> elasticsearchConverter;
+        private IDtoEntityConverter<D, E> elasticsearchConverter;
         private int batchSize;
 
         /**
-         *
          * @param mongoRepository
          * @param mongoDtoConverter
          * @param elasticsearchRepository
@@ -62,9 +61,9 @@ public class DataTransferService implements ApplicationContextAware {
          * @param batchSize
          */
         public MongoToEsTranferrer(MongoRepository mongoRepository,
-                                   DtoEntityConverter mongoDtoConverter,
+                                   IDtoEntityConverter mongoDtoConverter,
                                    ElasticsearchRepository elasticsearchRepository,
-                                   DtoEntityConverter elasticsearchConverter,
+                                   IDtoEntityConverter elasticsearchConverter,
                                    int batchSize) {
             this.mongoRepository = mongoRepository;
             this.elasticsearchRepository = elasticsearchRepository;

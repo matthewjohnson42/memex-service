@@ -1,9 +1,9 @@
-package com.matthewjohnson42.personalMemexService.data.mongo.service;
+package com.matthewjohnson42.personalMemexService.data.persistence.mongo.service;
 
-import com.matthewjohnson42.personalMemexService.data.converter.RawTextMongoConverter;
+import com.matthewjohnson42.personalMemexService.data.converter.rawtext.RawTextConverterMongoImpl;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
-import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
-import com.matthewjohnson42.personalMemexService.data.mongo.repository.RawTextMongoRepo;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.entity.RawTextMongo;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.repository.RawTextMongoRepo;
 import com.matthewjohnson42.personalMemexService.data.service.DataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,8 @@ public class RawTextMongoService extends DataService<RawTextDto, RawTextMongo> {
     Logger logger = LoggerFactory.getLogger(RawTextMongoService.class);
     private RawTextMongoRepo rawTextMongoRepo;
 
-    public RawTextMongoService(RawTextMongoConverter rawTextMongoConverter, RawTextMongoRepo rawTextMongoRepo) {
-        this.converter = rawTextMongoConverter;
+    public RawTextMongoService(RawTextConverterMongoImpl rawTextConverterMongoImpl, RawTextMongoRepo rawTextMongoRepo) {
+        this.converter = rawTextConverterMongoImpl;
         this.rawTextMongoRepo = rawTextMongoRepo;
     }
 

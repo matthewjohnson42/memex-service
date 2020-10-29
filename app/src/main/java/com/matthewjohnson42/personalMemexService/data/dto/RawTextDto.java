@@ -3,6 +3,8 @@ package com.matthewjohnson42.personalMemexService.data.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDateTime;
+
 /**
  * A simple raw text DTO, nothing more than just the text data
  */
@@ -10,6 +12,8 @@ public class RawTextDto {
 
     private String id;
     private String textContent;
+    private LocalDateTime createDateTime;
+    private LocalDateTime updateDateTime;
 
     @JsonCreator
     public RawTextDto(@JsonProperty(value="textContent", required=true) String textContent) {
@@ -34,6 +38,24 @@ public class RawTextDto {
 
     public String getTextContent() {
         return textContent;
+    }
+
+    public RawTextDto setCreateDatetime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+        return this;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public RawTextDto setUpdateDatetime(LocalDateTime updateDateTime) {
+        this.updateDateTime = updateDateTime;
+        return this;
+    }
+
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
     }
 
 }

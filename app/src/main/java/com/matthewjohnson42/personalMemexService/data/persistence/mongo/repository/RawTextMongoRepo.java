@@ -1,6 +1,6 @@
-package com.matthewjohnson42.personalMemexService.data.mongo.repository;
+package com.matthewjohnson42.personalMemexService.data.persistence.mongo.repository;
 
-import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.entity.RawTextMongo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

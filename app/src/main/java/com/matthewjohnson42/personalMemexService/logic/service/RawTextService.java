@@ -4,15 +4,13 @@ import com.matthewjohnson42.personalMemexService.data.dto.IdListDto;
 import com.matthewjohnson42.personalMemexService.data.dto.PageRequestDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchDto;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.service.RawTextESService;
-import com.matthewjohnson42.personalMemexService.data.mongo.service.RawTextMongoService;
+import com.matthewjohnson42.personalMemexService.data.persistence.elasticsearch.service.RawTextESService;
+import com.matthewjohnson42.personalMemexService.data.persistence.mongo.service.RawTextMongoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Service
 public class RawTextService {
