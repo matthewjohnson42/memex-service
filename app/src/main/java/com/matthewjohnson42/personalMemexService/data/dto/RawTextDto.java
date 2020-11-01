@@ -1,6 +1,7 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  */
 public class RawTextDto {
 
+    @JsonIgnore // along with getter and setter annotations, do not deserialize value
     private String id;
     private String textContent;
     private LocalDateTime createDateTime;
@@ -22,11 +24,13 @@ public class RawTextDto {
 
     public RawTextDto() { }
 
+    @JsonIgnore
     public RawTextDto setId(String id) {
         this.id = id;
         return this;
     }
 
+    @JsonProperty
     public String getId() {
         return id;
     }
@@ -57,4 +61,5 @@ public class RawTextDto {
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }
+
 }

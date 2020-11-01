@@ -13,12 +13,13 @@ public class RawTextES {
 
     @Id
     @Field(type=FieldType.Keyword)
+
     private String id;
     @Field(type=FieldType.Text, analyzer="simple")
     private String textContent;
-    @Field(type=FieldType.Date, format=DateFormat.basic_date_time)
+    @Field(type=FieldType.Date, format=DateFormat.date_time)
     private LocalDateTime createDateTime;
-    @Field(type=FieldType.Date, format=DateFormat.basic_date_time)
+    @Field(type=FieldType.Date, format=DateFormat.date_time)
     private LocalDateTime updateDateTime;
 
     public RawTextES () { }

@@ -38,14 +38,17 @@ public class RawTextMongoService extends DataService<RawTextDto, RawTextMongo> {
         return converter.convertEntity(entity);
     }
 
+    // pass in date time to allow non-assignment in converter
     public RawTextDto create(RawTextDto dto, LocalDateTime createDateTime) {
-        RawTextMongo entity = converter.convertDto(dto).setId(null);
+        RawTextMongo entity = converter.convertDto(dto);
         entity.setCreateDateTime(createDateTime);
+        entity.setUpdateDateTime(createDateTime);
         entity = rawTextMongoRepo.save(entity);
         logger.info(String.format("Wrote new rawText object with id %s", entity.getId()));
         return converter.convertEntity(entity);
     }
 
+    // pass in date time to allow non-assignment in converter
     public RawTextDto update(RawTextDto dto, LocalDateTime updateDateTime) {
         RawTextMongo entity = getIfExists(dto.getId());
         entity = converter.updateFromDto(entity, dto);
