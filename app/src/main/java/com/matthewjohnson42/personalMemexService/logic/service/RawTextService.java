@@ -27,7 +27,6 @@ public class RawTextService {
     }
 
     public RawTextDto create(RawTextDto rawTextDto) {
-        System.out.println("Raw Text DTO ID: " + rawTextDto.getId());
         LocalDateTime createDateTime = LocalDateTime.now();
         rawTextDto.setId(StringUtils.randomId());
         rawTextDto = rawTextMongoService.create(rawTextDto, createDateTime);

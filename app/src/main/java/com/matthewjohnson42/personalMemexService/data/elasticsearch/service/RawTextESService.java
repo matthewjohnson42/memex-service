@@ -3,7 +3,8 @@ package com.matthewjohnson42.personalMemexService.data.elasticsearch.service;
 import com.matthewjohnson42.personalMemexService.data.converter.RawTextESConverter;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRepo;
+import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.ESRepo;
+import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRestTemplate;
 import com.matthewjohnson42.personalMemexService.data.service.DataService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,11 +21,15 @@ import java.util.stream.Collectors;
 @Service
 public class RawTextESService extends DataService<RawTextDto, RawTextES> {
 
-    private RawTextESRepo rawTextESRepo;
+    private RawTextESRestTemplate elasticSearchRestTemplate;
+    private ESRepo esRepo;
 
-    public RawTextESService(RawTextESConverter rawTextESConverter, RawTextESRepo rawTextESRepo) {
+    public RawTextESService(RawTextESConverter rawTextESConverter,
+                            RawTextESRestTemplate elasticSearchRestTemplate,
+                            ESRepo esRepo) {
         this.converter = rawTextESConverter;
-        this.rawTextESRepo = rawTextESRepo;
+        this.elasticSearchRestTemplate = elasticSearchRestTemplate;
+        this.esRepo = esRepo;
     }
 
     public Page<RawTextDto> search(String searchString,
@@ -33,14 +38,13 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
                                    LocalDateTime startUpdateDate,
                                    LocalDateTime endUpdateDate,
                                    Pageable pageable) {
-//        Page<RawTextES> rawTextESPage = rawTextESRepo.getPageFromSearchString( // non functioning
-//                searchString,
-//                startCreateDate,
-//                endCreateDate,
-//                startUpdateDate,
-//                endUpdateDate,
-//                pageable);
-        Page<RawTextES> rawTextESPage = rawTextESRepo.getPageFromSearchString(searchString, pageable);
+        Page<RawTextES> rawTextESPage = elasticSearchRestTemplate.getPageFromSearchString( // non functioning
+                searchString,
+                startCreateDate,
+                endCreateDate,
+                startUpdateDate,
+                endUpdateDate,
+                pageable);
         List<RawTextDto> rawTextDtos = rawTextESPage.get().map(
                 entity -> converter.convertEntity(entity)).collect(Collectors.toList()
         );
@@ -52,25 +56,25 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
         RawTextES rawTextES = converter.convertDto(rawTextDto);
         rawTextES.setCreateDateTime(createDateTime);
         rawTextES.setUpdateDateTime(createDateTime);
-        rawTextESRepo.save(rawTextES);
+//        esRepo.save(rawTextES);
+        elasticSearchRestTemplate.save(rawTextES);
     }
 
     // pass in date time to allow for non-assignment in converter
     public void update(RawTextDto rawTextDto, LocalDateTime updateDateTime) {
-        RawTextES rawTextES = getIfExists(rawTextDto.getId());
-        rawTextES = converter.updateFromDto(rawTextES, rawTextDto);
+        RawTextES rawTextES = converter.convertDto(rawTextDto);
         rawTextES.setUpdateDateTime(updateDateTime);
-        rawTextESRepo.save(rawTextES);
+        elasticSearchRestTemplate.save(rawTextES);
     }
 
     public void deleteById(String id) {
-        rawTextESRepo.deleteById(id);
+        elasticSearchRestTemplate.deleteById(id);
     }
 
-    private RawTextES getIfExists(String id) {
-        Optional<RawTextES> rawTextEntity = rawTextESRepo.findById(id);
-        if (rawTextEntity.isPresent()) {
-            return rawTextEntity.get();
+    public RawTextDto get(String id) {
+        Optional<RawTextES> rawTextOptional = elasticSearchRestTemplate.findById(id);
+        if (rawTextOptional.isPresent()) {
+            return converter.convertEntity(rawTextOptional.get());
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("No entity found for id %s", id));
         }

@@ -41,4 +41,14 @@ public class RawTextESConverter implements DtoEntityConverter<RawTextDto, RawTex
         return rawTextES;
     }
 
+    public RawTextDto updateFromDto(RawTextDto rawTextDtoA, RawTextDto rawTextDtoB) {
+        if (rawTextDtoB.getId() != null) {
+            rawTextDtoA.setId(rawTextDtoB.getId());
+        }
+        if (rawTextDtoB.getTextContent() != null) {
+            rawTextDtoA.setTextContent(rawTextDtoB.getTextContent());
+        }
+        return rawTextDtoA;
+    }
+
 }

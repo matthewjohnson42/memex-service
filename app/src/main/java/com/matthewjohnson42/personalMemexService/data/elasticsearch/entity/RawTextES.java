@@ -1,5 +1,6 @@
 package com.matthewjohnson42.personalMemexService.data.elasticsearch.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -8,18 +9,20 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
-@Document(indexName="rawtext")
+//@Document(indexName="rawtext")
 public class RawTextES {
 
-    @Id
-    @Field(type=FieldType.Keyword)
+//    @Id
+//    @Field(type=FieldType.Keyword)
 
     private String id;
-    @Field(type=FieldType.Text, analyzer="simple")
+//    @Field(type=FieldType.Text, analyzer="simple")
     private String textContent;
-    @Field(type=FieldType.Date, format=DateFormat.date_time)
+//    @Field(type=FieldType.Date, format=DateFormat.date_time)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
     private LocalDateTime createDateTime;
-    @Field(type=FieldType.Date, format=DateFormat.date_time)
+//    @Field(type=FieldType.Date, format=DateFormat.date_time)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
     private LocalDateTime updateDateTime;
 
     public RawTextES () { }

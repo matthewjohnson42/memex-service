@@ -1,5 +1,6 @@
 package com.matthewjohnson42.personalMemexService.config;
 
+import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRestTemplate;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,11 @@ public class ElasticSearchConfiguration extends AbstractElasticsearchConfigurati
     @Bean
     public RestHighLevelClient elasticsearchClient() {
         return RestClients.create(ClientConfiguration.create(String.format("%s:%s", elasticHostname, elasticPort))).rest();
+    }
+
+    @Bean
+    public RawTextESRestTemplate elasticSearchRestTemplate() {
+        return new RawTextESRestTemplate(elasticHostname, elasticPort);
     }
 
 }

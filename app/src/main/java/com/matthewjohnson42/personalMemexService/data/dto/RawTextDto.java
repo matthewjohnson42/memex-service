@@ -1,6 +1,7 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,7 +15,9 @@ public class RawTextDto {
     @JsonIgnore // along with getter and setter annotations, do not deserialize value
     private String id;
     private String textContent;
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
     private LocalDateTime createDateTime;
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
     private LocalDateTime updateDateTime;
 
     @JsonCreator
