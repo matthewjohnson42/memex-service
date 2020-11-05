@@ -41,8 +41,8 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
     private final String rawTextIndexCreateQuery = "{\"mappings\":{\"properties\":{\"id\":{\"type\":\"text\"," +
             "\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"textContent\":{\"type\":" +
             "\"text\",\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"createDateTime\":{" +
-            "\"type\":\"date\",\"format\":\"strict_date_time_no_millis\"},\"updateDateTime\":{\"type\":\"date\"," +
-            "\"format\":\"strict_date_time_no_millis\"}}}}";
+            "\"type\":\"date\",\"format\":\"strict_date_hour_minute_second_millis\"},\"updateDateTime\":{\"type\":" +
+            "\"date\",\"format\":\"strict_date_time_no_millis\"}}}}";
     public RawTextESRestTemplate(String hostName, String hostPort) {
         rawTextUrl = String.format("http://%s:%s/rawtext", hostName, hostPort);
         rawTextSearchUrl = String.format("http://%s:%s/rawtext/_search", hostName, hostPort);

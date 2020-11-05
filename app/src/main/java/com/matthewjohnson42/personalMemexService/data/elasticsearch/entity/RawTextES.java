@@ -8,21 +8,28 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
+// todo note: the issue with ES "save" is that the date format as received by Elastic Search is inconsistent with
+// the expectations of Elastic Search. This can be resolved by either translating the ES Java entities to JSON manually,
+// or by configuring Jackson to correctly translate the ES Java entities to JSON.
 //@Document(indexName="rawtext")
 public class RawTextES {
 
 //    @Id
 //    @Field(type=FieldType.Keyword)
+    private String format = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    protected DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendPattern(format).toFormatter();
 
     private String id;
 //    @Field(type=FieldType.Text, analyzer="simple")
     private String textContent;
 //    @Field(type=FieldType.Date, format=DateFormat.date_time)
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
+//    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SS") // todo get this formatting to work with ES "save" function
     private LocalDateTime createDateTime;
 //    @Field(type=FieldType.Date, format=DateFormat.date_time)
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
+//    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SS") // todo get this formatting to work with ES "save" function
     private LocalDateTime updateDateTime;
 
     public RawTextES () { }

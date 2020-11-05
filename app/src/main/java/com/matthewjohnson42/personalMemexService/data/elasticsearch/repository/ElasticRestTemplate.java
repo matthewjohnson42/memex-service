@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public abstract class ElasticRestTemplate<E> extends RestTemplate  {
 
-    private String format = "yyyy-MM-dd'T'HH:mm:ssSS";
+    private String format = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     protected DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendPattern(format).toFormatter();
 
     public abstract Optional<E> save(E e); // both create and update

@@ -15,9 +15,9 @@ public class RawTextDto {
     @JsonIgnore // along with getter and setter annotations, do not deserialize value
     private String id;
     private String textContent;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createDateTime;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssSS")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime updateDateTime;
 
     @JsonCreator
