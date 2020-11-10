@@ -3,7 +3,6 @@ package com.matthewjohnson42.personalMemexService.data.elasticsearch.service;
 import com.matthewjohnson42.personalMemexService.data.converter.RawTextESConverter;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.ESRepo;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.repository.RawTextESRestTemplate;
 import com.matthewjohnson42.personalMemexService.data.service.DataService;
 import org.springframework.data.domain.Page;
@@ -22,14 +21,11 @@ import java.util.stream.Collectors;
 public class RawTextESService extends DataService<RawTextDto, RawTextES> {
 
     private RawTextESRestTemplate elasticSearchRestTemplate;
-    private ESRepo esRepo;
 
     public RawTextESService(RawTextESConverter rawTextESConverter,
-                            RawTextESRestTemplate elasticSearchRestTemplate,
-                            ESRepo esRepo) {
+                            RawTextESRestTemplate elasticSearchRestTemplate) {
         this.converter = rawTextESConverter;
         this.elasticSearchRestTemplate = elasticSearchRestTemplate;
-        this.esRepo = esRepo;
     }
 
     public Page<RawTextDto> search(String searchString,
@@ -56,7 +52,6 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
         RawTextES rawTextES = converter.convertDto(rawTextDto);
         rawTextES.setCreateDateTime(createDateTime);
         rawTextES.setUpdateDateTime(createDateTime);
-//        esRepo.save(rawTextES);
         elasticSearchRestTemplate.save(rawTextES);
     }
 
