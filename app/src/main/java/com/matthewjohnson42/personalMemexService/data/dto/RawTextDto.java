@@ -6,18 +6,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
- * A simple raw text DTO, nothing more than just the text data
+ * A DTO representing the raw text entity as handled by the controller.
+ * Raw text entity is only text and DB tracking information
  */
 public class RawTextDto {
+
+    private DateTimeFormatter dateTimeFormatter;
 
     @JsonIgnore // along with getter and setter annotations, do not deserialize value
     private String id;
     private String textContent;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createDateTime;
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime updateDateTime;
 
     @JsonCreator
@@ -52,6 +54,7 @@ public class RawTextDto {
         return this;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;
     }
@@ -61,6 +64,7 @@ public class RawTextDto {
         return this;
     }
 
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     public LocalDateTime getUpdateDateTime() {
         return updateDateTime;
     }

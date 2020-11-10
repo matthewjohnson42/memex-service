@@ -12,10 +12,10 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 @Configuration
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
-    @Value("${mongo.host}")
+    @Value("${db.mongo.host}")
     private String hostName;
 
-    @Value("${mongo.port}")
+    @Value("${db.mongo.port}")
     private String dbPort;
 
     @Override

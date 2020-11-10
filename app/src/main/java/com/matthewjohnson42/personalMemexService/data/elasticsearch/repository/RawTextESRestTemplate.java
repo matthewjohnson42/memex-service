@@ -1,5 +1,6 @@
 package com.matthewjohnson42.personalMemexService.data.elasticsearch.repository;
 
+import com.matthewjohnson42.personalMemexService.config.ElasticSearchConfiguration;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.wrappers.RawTextESHit;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.wrappers.RawTextESWrapper;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -26,6 +28,7 @@ import java.util.Optional;
  * Chosen to address the failure of ElasticSearch to recognize complex, base 64 encoded queries submitted by
  * spring-data-elasticsearch.
  */
+@Component
 public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
 
     Logger logger = LoggerFactory.getLogger(RawTextESRestTemplate.class);
@@ -42,11 +45,12 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
             "\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"textContent\":{\"type\":" +
             "\"text\",\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"createDateTime\":{" +
             "\"type\":\"date\",\"format\":\"strict_date_hour_minute_second_millis\"},\"updateDateTime\":{\"type\":" +
-            "\"date\",\"format\":\"strict_date_time_no_millis\"}}}}";
-    public RawTextESRestTemplate(String hostName, String hostPort) {
-        rawTextUrl = String.format("http://%s:%s/rawtext", hostName, hostPort);
-        rawTextSearchUrl = String.format("http://%s:%s/rawtext/_search", hostName, hostPort);
-        rawTextDocUrl = String.format("http://%s:%s/rawtext/_doc/{id}", hostName, hostPort);
+            "\"date\",\"format\":\"strict_date_hour_minute_second_millis\"}}}}";
+
+    public RawTextESRestTemplate(ElasticSearchConfiguration config) {
+        rawTextUrl = String.format("http://%s:%s/rawtext", config.getHostName(), config.getHostPort());
+        rawTextSearchUrl = String.format("http://%s:%s/rawtext/_search", config.getHostName(), config.getHostPort());
+        rawTextDocUrl = String.format("http://%s:%s/rawtext/_doc/{id}", config.getHostName(), config.getHostPort());
         initIndex();
     }
 
@@ -69,7 +73,6 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
 
     public Optional<RawTextES> save(RawTextES rawTextES) {
         String rawTextId = rawTextES.getId();
-        rawTextES.setId(null);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<RawTextES> requestBody = new HttpEntity(rawTextES, headers);
