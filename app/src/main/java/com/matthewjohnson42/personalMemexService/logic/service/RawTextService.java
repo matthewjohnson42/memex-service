@@ -28,7 +28,14 @@ public class RawTextService {
 
     public RawTextDto create(RawTextDto rawTextDto) {
         LocalDateTime createDateTime = LocalDateTime.now();
-        rawTextDto.setId(StringUtils.randomId());
+        boolean validId = false;
+        while (!validId) {
+            String prospectiveId = StringUtils.randomId();
+            if (!rawTextMongoService.exists(prospectiveId)) {
+                rawTextDto.setId(prospectiveId);
+                validId = true;
+            }
+        }
         rawTextDto = rawTextMongoService.create(rawTextDto, createDateTime);
         rawTextESService.create(rawTextDto, createDateTime);
         return rawTextDto;

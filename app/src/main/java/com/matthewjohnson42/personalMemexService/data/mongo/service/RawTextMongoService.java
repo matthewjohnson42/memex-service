@@ -72,6 +72,10 @@ public class RawTextMongoService extends DataService<RawTextDto, RawTextMongo> {
         return new PageImpl<>(rawTextDtos, rawTextMongoPage.getPageable(), rawTextMongoPage.getTotalElements());
     }
 
+    public boolean exists(String id) {
+        return rawTextMongoRepo.findById(id).isPresent();
+    }
+
     private RawTextMongo getIfExists(String id) { // todo add abstract data service containing methods like this
         Optional<RawTextMongo> rawTextEntity = rawTextMongoRepo.findById(id);
         if (rawTextEntity.isPresent()) {
