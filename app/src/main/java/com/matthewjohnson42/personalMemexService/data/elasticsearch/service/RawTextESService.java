@@ -34,7 +34,7 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
                                    LocalDateTime startUpdateDate,
                                    LocalDateTime endUpdateDate,
                                    Pageable pageable) {
-        Page<RawTextES> rawTextESPage = elasticSearchRestTemplate.getPageFromSearchString( // non functioning
+        Page<RawTextES> rawTextESPage = elasticSearchRestTemplate.getPageFromSearchString(
                 searchString,
                 startCreateDate,
                 endCreateDate,
@@ -57,7 +57,10 @@ public class RawTextESService extends DataService<RawTextDto, RawTextES> {
 
     // pass in date time to allow for non-assignment in converter
     public void update(RawTextDto rawTextDto, LocalDateTime updateDateTime) {
-        RawTextES rawTextES = converter.convertDto(rawTextDto);
+        Optional<RawTextES> rawTextESOpt = elasticSearchRestTemplate.findById(rawTextDto.getId());
+        RawTextES rawTextES = rawTextESOpt.isPresent() ?
+                converter.updateFromDto(rawTextESOpt.get(), rawTextDto) :
+                converter.convertDto(rawTextDto);
         rawTextES.setUpdateDateTime(updateDateTime);
         elasticSearchRestTemplate.save(rawTextES);
     }
