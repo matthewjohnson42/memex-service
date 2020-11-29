@@ -4,7 +4,7 @@ import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * Accessor for Mongo document collection named "rawText"
+ * Data access object for the Mongo collection corresponding to the RawText entity described by RawTextMongo
  */
 public interface RawTextMongoRepo extends MongoRepository<RawTextMongo, String> {
 }
