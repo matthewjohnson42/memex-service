@@ -43,6 +43,21 @@
       <artifactId>spring-boot-starter-security</artifactId>
       <version>${springbootVersion}.RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-resource-server</artifactId>
+      <version>5.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-jose</artifactId>
+      <version>5.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <version>1.68</version>
+    </dependency>
 <!--    <dependency>-->
 <!--      <groupId>org.springframework.data</groupId>-->
 <!--      <artifactId>spring-data-elasticsearch</artifactId>-->
@@ -83,7 +98,7 @@
             </goals>
             <configuration>
               <createDependencyReducedPom>false</createDependencyReducedPom>
-              <finalName>personal-memex-service-${version}</finalName>
+              <finalName>personal-memex-service-${project.version}</finalName>
               <!-- reference: https://stackoverflow.com/questions/33687492 -->
               <transformers>
                 <transformer
@@ -101,6 +116,14 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 

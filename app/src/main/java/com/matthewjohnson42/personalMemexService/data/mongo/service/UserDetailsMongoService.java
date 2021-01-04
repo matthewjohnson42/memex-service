@@ -1,50 +1,25 @@
 package com.matthewjohnson42.personalMemexService.data.mongo.service;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.matthewjohnson42.personalMemexService.data.mongo.entity.UserDetailsMongo;
+import com.matthewjohnson42.personalMemexService.data.mongo.repository.UserDetailsMongoRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.Optional;
 
-@Service(value="userDetailsService")
+@Service
 public class UserDetailsMongoService implements UserDetailsService {
-    public UserDetails loadUserByUsername(String username) {
-        return new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return null;
-            }
 
-            @Override
-            public String getPassword() {
-                return null;
-            }
+    private UserDetailsMongoRepo userDetailsMongoRepo;
 
-            @Override
-            public String getUsername() {
-                return null;
-            }
-
-            @Override
-            public boolean isAccountNonExpired() {
-                return false;
-            }
-
-            @Override
-            public boolean isAccountNonLocked() {
-                return false;
-            }
-
-            @Override
-            public boolean isCredentialsNonExpired() {
-                return false;
-            }
-
-            @Override
-            public boolean isEnabled() {
-                return false;
-            }
-        };
+    public UserDetailsMongoService(UserDetailsMongoRepo userDetailsMongoRepo) {
+        this.userDetailsMongoRepo = userDetailsMongoRepo;
     }
+
+    public UserDetails loadUserByUsername(String username) {
+        Optional<UserDetailsMongo> userDetailsOptional = userDetailsMongoRepo.findById(username);
+        return userDetailsOptional.isPresent() ? userDetailsOptional.get() : new UserDetailsMongo();
+    }
+
 }
