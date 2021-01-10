@@ -20,8 +20,3 @@ management:
 
 ---
 spring.profiles: prod
-management:
-  endpoints:
-    web:
-      cors:
-        allowed-origins: http://matthewjohnson42.com/*
