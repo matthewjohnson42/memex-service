@@ -1,11 +1,21 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuthRequestDto {
 
     private String username;
     private String password;
 
-    public AuthRequestDto() { }
+    @JsonCreator
+    public AuthRequestDto(
+            @JsonProperty("username") String username,
+            @JsonProperty("password") String password
+    ) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

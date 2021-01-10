@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Web server http request controller for the RawText entity type
  */
-@CrossOrigin
 @RestController
 @RequestMapping("/api/v0/rawText")
 public class RawTextController {

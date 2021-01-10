@@ -4,6 +4,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+import com.matthewjohnson42.personalMemexService.web.filter.auth.CustomJwtGrantedAuthoritiesConverter;
+import com.nimbusds.jose.KeyLengthException;
+import com.nimbusds.jose.crypto.MACSigner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
-import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -24,24 +28,30 @@ import java.security.spec.InvalidKeySpecException;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${http.oauth2.encKeySecret}")
-    String encryptionKeySecret;
+    private String encryptionKeySecret;
+
+    @Autowired
+    CustomJwtGrantedAuthoritiesConverter customJwtGrantedAuthConverter;
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(customJwtGrantedAuthConverter);
         httpSecurity
-                .authorizeRequests().anyRequest().authenticated()
-                .and().formLogin()
-                .and().httpBasic()
-                .and().oauth2ResourceServer().jwt();
+                .authorizeRequests()
+                .antMatchers("/api/v0/auth").permitAll()
+                .antMatchers("/**").authenticated()
+                .and().csrf().ignoringAntMatchers("/api/v0/auth")
+                .and().cors()
+//                .and().requiresChannel().anyRequest().requiresSecure() // this can be done using Nginx
+                .and().oauth2ResourceServer().jwt(
+                    jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                );
     }
 
-    // used by oauth2ResourceServer in JWT mode
-    // see OAuth2ResourceServerConfigurer
     @Bean
-    public JwtDecoder jwtDecoder() throws GeneralSecurityException {
-        return NimbusJwtDecoder.withSecretKey(
-                secretKey()
-        ).build();
+    public MACSigner macSigner(SecretKey secretKey) throws KeyLengthException {
+        return new MACSigner(secretKey);
     }
 
     @Bean
@@ -56,6 +66,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
         PBEKeySpec keySpec = new PBEKeySpec(secret, salt, 185000);
         return secretKeyFactory.generateSecret(keySpec);
+    }
+
+    // used by oauth2ResourceServer in JWT mode
+    // see OAuth2ResourceServerConfigurer
+    @Bean
+    public JwtDecoder jwtDecoder(SecretKey secretKey) {
+        return NimbusJwtDecoder.withSecretKey(
+                secretKey
+        ).build();
     }
 
 //    @Bean
@@ -79,30 +98,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    }
 
 //    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider(
-//            PasswordEncoder passwordEncoder,
-//            UserDetailsMongoService mongoUserDetailsService) {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setPasswordEncoder(passwordEncoder);
-//        authenticationProvider.setUserDetailsService(mongoUserDetailsService);
-//        return authenticationProvider;
-//    }
-//
-//    @Bean
 //    public PasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public ProviderManager providerManager(DaoAuthenticationProvider daoAuthenticationProvider) {
-//        List<AuthenticationProvider> authenticationProviders = new ArrayList<>();
-//        authenticationProviders.add(daoAuthenticationProvider);
-//        return new ProviderManager(authenticationProviders);
-//    }
-//
-//    @Bean
-//    public BearerTokenAuthenticationFilter bearerTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
-//        return new BearerTokenAuthenticationFilter(authenticationManager);
 //    }
 
 }
