@@ -8,10 +8,12 @@ public class AuthRequestDto {
     private String username;
     private String password;
 
+    public AuthRequestDto() { }
+
     @JsonCreator
     public AuthRequestDto(
-            @JsonProperty("username") String username,
-            @JsonProperty("password") String password
+            @JsonProperty(value="username", required=true) String username,
+            @JsonProperty(value="password", required=true) String password
     ) {
         this.username = username;
         this.password = password;

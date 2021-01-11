@@ -29,7 +29,7 @@ import java.util.Optional;
  * spring-data-elasticsearch.
  */
 @Component
-public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
+public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES> {
 
     Logger logger = LoggerFactory.getLogger(RawTextESRestTemplate.class);
 
@@ -71,13 +71,13 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<RawTextES> {
         delete(rawTextDocUrl, id);
     }
 
-    public Optional<RawTextES> save(RawTextES rawTextES) {
+    public RawTextES save(RawTextES rawTextES) {
         String rawTextId = rawTextES.getId();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<RawTextES> requestBody = new HttpEntity(rawTextES, headers);
         put(rawTextDocUrl, requestBody, rawTextId);
-        return findById(rawTextId);
+        return rawTextES; // do not use "findIfExists" to validate stored value given HTTP request latency and non-blocking nature
     }
 
     public Page<RawTextES> getPageFromSearchString(

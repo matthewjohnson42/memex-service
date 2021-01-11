@@ -6,9 +6,11 @@ db:
     hostname: ${ELASTICSEARCH_HOST:localhost}
     port: ${ELASTICSEARCH_PORT:9200}
 
-http:
+security:
   oauth2:
-    encKeySecret: ${ENC_KEY_SECRET:absolutelyNoneAtAll}
+    encKeySecret: ${TOKEN_ENC_KEY_SECRET:howMuchABulldozerCares}
+  userPassword:
+    encKeySecret: ${USERPASS_ENC_KEY_SECRET:absolutelyNoneAtAll}
 
 ---
 spring.profiles: dev

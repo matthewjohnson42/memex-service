@@ -6,13 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
 public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 
-    AuthService authService;
+    private AuthService authService;
 
     public CustomJwtGrantedAuthoritiesConverter(AuthService authService) {
         this.authService = authService;
@@ -20,7 +19,7 @@ public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Coll
 
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
-        return new ArrayList<>();
+        return authService.getAuthorities(jwt);
     }
 
 }

@@ -3,9 +3,10 @@ package com.matthewjohnson42.personalMemexService.web.controller;
 import com.matthewjohnson42.personalMemexService.data.dto.AuthRequestDto;
 import com.matthewjohnson42.personalMemexService.data.dto.AuthResponseDto;
 import com.matthewjohnson42.personalMemexService.logic.service.AuthService;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jwt.SignedJWT;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +23,12 @@ public class AuthController {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public AuthResponseDto authenticate(AuthRequestDto authRequestDto) throws JOSEException {
-        SignedJWT signedJWT = authService.getSignedJwt();
-        return new AuthResponseDto().setToken(signedJWT.serialize());
+    public ResponseEntity<AuthResponseDto> authenticate(@RequestBody AuthRequestDto authRequestDto) {
+        try {
+            return new ResponseEntity<>(authService.processAutheticationRequest(authRequestDto), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

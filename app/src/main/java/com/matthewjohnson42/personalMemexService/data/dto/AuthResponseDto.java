@@ -1,5 +1,9 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
+/**
+ * A response object containing a bearer token
+ * See WebSecurityConfiguration, CustomJwtGrantedAuthoritiesController
+ */
 public class AuthResponseDto {
 
     private String token;

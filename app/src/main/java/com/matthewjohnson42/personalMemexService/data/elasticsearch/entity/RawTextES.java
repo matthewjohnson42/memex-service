@@ -1,22 +1,19 @@
 package com.matthewjohnson42.personalMemexService.data.elasticsearch.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
+import com.matthewjohnson42.personalMemexService.data.Entity;
 
 /**
  * Class used to represent the raw text entity as an ElasticSearch entity.
  * Raw text entity is only text and DB tracking data.
  */
-public class RawTextES {
+public class RawTextES extends Entity<String> {
 
     private String id;
     private String textContent;
-    private LocalDateTime createDateTime;
-    private LocalDateTime updateDateTime;
 
     public RawTextES () { }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -32,26 +29,6 @@ public class RawTextES {
 
     public RawTextES setTextContent(String textContent) {
         this.textContent = textContent;
-        return this;
-    }
-
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
-    public LocalDateTime getCreateDateTime() {
-        return createDateTime;
-    }
-
-    public RawTextES setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
-        return this;
-    }
-
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
-    public LocalDateTime getUpdateDateTime() {
-        return updateDateTime;
-    }
-
-    public RawTextES setUpdateDateTime(LocalDateTime updateDateTime) {
-        this.updateDateTime = updateDateTime;
         return this;
     }
 
