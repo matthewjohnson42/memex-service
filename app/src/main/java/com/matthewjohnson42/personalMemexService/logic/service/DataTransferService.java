@@ -1,6 +1,8 @@
 package com.matthewjohnson42.personalMemexService.logic.service;
 
-import com.matthewjohnson42.personalMemexService.data.converter.DtoEntityConverter;
+import com.matthewjohnson42.personalMemexService.data.DtoEntityConverter;
+import com.matthewjohnson42.personalMemexService.data.DtoForEntity;
+import com.matthewjohnson42.personalMemexService.data.Entity;
 import com.matthewjohnson42.personalMemexService.data.converter.RawTextESConverter;
 import com.matthewjohnson42.personalMemexService.data.converter.RawTextMongoConverter;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
@@ -31,26 +33,27 @@ public class DataTransferService implements ApplicationContextAware {
     }
 
     public void transferRawTextToES() {
-        new MongoToEsTranferrer<RawTextDto, RawTextMongo, RawTextES>(
+        new MongoToEsTranferrer<String, RawTextDto, RawTextMongo, RawTextES>(
                 applicationContext.getBean(RawTextMongoRepo.class),
                 applicationContext.getBean(RawTextMongoConverter.class),
                 applicationContext.getBean(RawTextESRestTemplate.class),
                 applicationContext.getBean(RawTextESConverter.class),
                 1000
-        ).accept();
+        ).run();
     }
 
     /**
+     * @param <ID> the ID type of the data being transferred
      * @param <D> the DTO type of the data being transferred
      * @param <M> the Mongo Entity type of the data being transferred
      * @param <E> the Elasticsearch Entity type of the data being transferred
      */
-    private class MongoToEsTranferrer<D, M, E> {
+    private class MongoToEsTranferrer<ID, D extends DtoForEntity<ID>, M extends Entity<ID>, E extends Entity<ID>> {
         Logger logger = LoggerFactory.getLogger(MongoToEsTranferrer.class);
         private MongoRepository<M, String> mongoRepository;
-        private DtoEntityConverter<D, M> mongoDtoConverter;
-        private ElasticRestTemplate<E> elasticRestTemplate;
-        private DtoEntityConverter<D, E> elasticsearchConverter;
+        private DtoEntityConverter<ID, D, M> mongoDtoConverter;
+        private ElasticRestTemplate<ID, E> elasticRestTemplate;
+        private DtoEntityConverter<ID, D, E> elasticsearchConverter;
         private int batchSize;
 
         /**
@@ -73,7 +76,7 @@ public class DataTransferService implements ApplicationContextAware {
             this.batchSize = batchSize;
         }
 
-        public void accept() {
+        public void run() {
             int mongoRequestRetryLimit = 10;
             long totalDocuments = mongoRepository.count();
             long totalPages = totalDocuments / batchSize;

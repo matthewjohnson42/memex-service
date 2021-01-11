@@ -1,25 +1,23 @@
 package com.matthewjohnson42.personalMemexService.data.mongo.service;
 
+import com.matthewjohnson42.personalMemexService.data.converter.UserDetailsMongoConverter;
+import com.matthewjohnson42.personalMemexService.data.dto.UserDetailsDto;
 import com.matthewjohnson42.personalMemexService.data.mongo.entity.UserDetailsMongo;
 import com.matthewjohnson42.personalMemexService.data.mongo.repository.UserDetailsMongoRepo;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import com.matthewjohnson42.personalMemexService.data.DataService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserDetailsMongoService implements UserDetailsService {
+public class UserDetailsMongoService extends DataService<String, UserDetailsDto, UserDetailsMongo> {
 
-    private UserDetailsMongoRepo userDetailsMongoRepo;
-
-    public UserDetailsMongoService(UserDetailsMongoRepo userDetailsMongoRepo) {
-        this.userDetailsMongoRepo = userDetailsMongoRepo;
+    public UserDetailsMongoService(UserDetailsMongoConverter converter, UserDetailsMongoRepo userDetailsMongoRepo) {
+        super(converter, userDetailsMongoRepo);
     }
 
-    public UserDetails loadUserByUsername(String username) {
-        Optional<UserDetailsMongo> userDetailsOptional = userDetailsMongoRepo.findById(username);
-        return userDetailsOptional.isPresent() ? userDetailsOptional.get() : new UserDetailsMongo();
+    // password not loaded into DTO by converter
+    public String getEncodedPasswordForUser(String username) {
+        UserDetailsMongo userDetailsMongo = getIfExists(username);
+        return userDetailsMongo.getPassword();
     }
 
 }

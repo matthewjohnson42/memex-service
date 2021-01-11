@@ -1,11 +1,12 @@
 package com.matthewjohnson42.personalMemexService.data.converter;
 
+import com.matthewjohnson42.personalMemexService.data.DtoEntityConverter;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RawTextMongoConverter implements DtoEntityConverter<RawTextDto, RawTextMongo> {
+public class RawTextMongoConverter implements DtoEntityConverter<String, RawTextDto, RawTextMongo> {
 
     public RawTextDto convertEntity(RawTextMongo rawTextMongo) {
         return updateFromEntity(new RawTextDto(), rawTextMongo);
@@ -15,26 +16,17 @@ public class RawTextMongoConverter implements DtoEntityConverter<RawTextDto, Raw
         return updateFromDto(new RawTextMongo(), rawTextDto);
     }
 
+    @Override
     public RawTextDto updateFromEntity(RawTextDto rawTextDto, RawTextMongo rawTextMongo) {
-        if (rawTextMongo.getId() != null) {
-            rawTextDto.setId(rawTextMongo.getId());
-        }
+        rawTextDto = DtoEntityConverter.super.updateFromEntity(rawTextDto, rawTextMongo);
         if (rawTextMongo.getTextContent() != null) {
             rawTextDto.setTextContent(rawTextMongo.getTextContent());
-        }
-        if (rawTextMongo.getCreateDateTime() != null) {
-            rawTextDto.setCreateDateTime(rawTextMongo.getCreateDateTime());
-        }
-        if (rawTextMongo.getUpdateDateTime() != null) {
-            rawTextDto.setUpdateDateTime(rawTextMongo.getUpdateDateTime());
         }
         return rawTextDto;
     }
 
     public RawTextMongo updateFromDto(RawTextMongo rawTextMongo, RawTextDto rawTextDto) {
-        if (rawTextDto.getId() != null) {
-            rawTextMongo.setId(rawTextDto.getId());
-        }
+        rawTextMongo = DtoEntityConverter.super.updateFromDto(rawTextMongo, rawTextDto);
         if (rawTextDto.getTextContent() != null) {
             rawTextMongo.setTextContent(rawTextDto.getTextContent());
         }

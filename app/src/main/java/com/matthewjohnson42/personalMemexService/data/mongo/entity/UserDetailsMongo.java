@@ -1,56 +1,55 @@
 package com.matthewjohnson42.personalMemexService.data.mongo.entity;
 
+import com.matthewjohnson42.personalMemexService.data.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Document(collection="userDetails")
-public class UserDetailsMongo implements UserDetails {
+public class UserDetailsMongo extends Entity<String> {
 
     @Id
     private String username;
     private String password;
-    private List<SimpleGrantedAuthority> authorities;
-    private LocalDateTime createDateTime;
-    private LocalDateTime updateDateTime;
+    private Set<String> authorities;
 
     @Override
-    public List<SimpleGrantedAuthority> getAuthorities() {
-        return authorities;
+    public String getId() {
+        return username;
     }
 
     @Override
+    public UserDetailsMongo setId(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public UserDetailsMongo setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return null;
+    public UserDetailsMongo setPassword(String password) {
+        this.password = password;
+        return this;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
+    public Set<String> getAuthorities() {
+        return authorities;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
+    public UserDetailsMongo setAuthorities(Set<String> authorities) {
+        this.authorities = authorities;
+        return this;
     }
 
 }
