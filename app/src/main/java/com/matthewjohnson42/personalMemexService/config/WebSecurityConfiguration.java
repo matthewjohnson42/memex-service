@@ -1,0 +1,38 @@
+package com.matthewjohnson42.personalMemexService.config;
+
+import com.matthewjohnson42.personalMemexService.web.filter.auth.CustomJwtGrantedAuthoritiesConverter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+
+@Profile("prod")
+@EnableWebSecurity
+@Configuration
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    CustomJwtGrantedAuthoritiesConverter customJwtGrantedAuthConverter;
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(customJwtGrantedAuthConverter);
+        httpSecurity
+                .authorizeRequests()
+                .antMatchers("/api/v0/auth").permitAll()
+                .antMatchers("/api/v0/user").permitAll()
+                .antMatchers("/**").authenticated()
+                .and().csrf().ignoringAntMatchers("/api/v0/auth")
+                .and().csrf().ignoringAntMatchers("/api/v0/user")
+                .and().cors()
+//                .and().requiresChannel().anyRequest().requiresSecure() // this can be done using Nginx
+                .and().oauth2ResourceServer().jwt( /* enables bearer authentication tokens */
+                    jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                );
+    }
+
+}
