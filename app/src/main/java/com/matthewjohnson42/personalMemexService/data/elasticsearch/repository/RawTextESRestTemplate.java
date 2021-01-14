@@ -118,7 +118,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
     }
 
     public void initIndex() {
-        logger.info("Attempting create of ElasticSearch index \"rawText\"");
+        logger.info("Checking for existing ElasticSearch index \"rawText\"");
         boolean indexExists = false;
         try {
             ResponseEntity response = getForEntity(rawTextUrl, String.class);
@@ -127,12 +127,12 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
                 logger.info("Found existing ElasticSearch index \"rawText\", will not attempt re-creation of index.");
             }
         } catch (Exception e) {
-            if (e instanceof HttpClientErrorException.NotFound) {
-                logger.info("Did not find existing ElasticSearch index \"rawText\", proceeding with creation");
+            if (!(e instanceof HttpClientErrorException.NotFound)) {
+                logger.error("Error when checking for ElasticSearch index \"rawText\"", e);
             }
-            logger.error("Error when checking for ElasticSearch index \"rawText\"", e);
         }
         if (!indexExists) {
+            logger.info("Did not find existing ElasticSearch index \"rawText\", proceeding with creation");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity(rawTextIndexCreateQuery, headers);
