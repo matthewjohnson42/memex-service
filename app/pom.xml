@@ -28,31 +28,27 @@
       <version>4.0.3</version>
     </dependency>
     <dependency>
-      <groupId>org.hibernate.validator</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>6.1.0.Final</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <version>${springbootVersion}.RELEASE</version>
     </dependency>
     <dependency>
-      <groupId>org.hibernate.validator</groupId>
-      <artifactId>hibernate-validator-annotation-processor</artifactId>
-      <version>6.0.2.Final</version>
-      <scope>provided</scope>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-resource-server</artifactId>
+      <version>5.4.2</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.data</groupId>-->
-<!--      <artifactId>spring-data-elasticsearch</artifactId>-->
-<!--      <version>4.0.2.RELEASE</version>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--      <version>${springbootVersion}.RELEASE</version>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.commons</groupId>-->
-<!--      <artifactId>commons-lang3</artifactId>-->
-<!--      <version>3.11</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-oauth2-jose</artifactId>
+      <version>5.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15on</artifactId>
+      <!-- if the version is changed, it should also be changed in scripts/docker-build.sh,
+      docker/Dockerfile, and scripts/entrypoint.sh -->
+      <version>1.68</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -77,8 +73,13 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.bouncycastle:bcprov-jdk15on</exclude>
+                </excludes>
+              </artifactSet>
               <createDependencyReducedPom>false</createDependencyReducedPom>
-              <finalName>personal-memex-service-${version}</finalName>
+              <finalName>personal-memex-service-${project.version}</finalName>
               <!-- reference: https://stackoverflow.com/questions/33687492 -->
               <transformers>
                 <transformer
@@ -96,6 +97,14 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+            </configuration>
+        </plugin>
     </plugins>
   </build>
 
