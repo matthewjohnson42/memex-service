@@ -7,7 +7,7 @@ The application is planned to be hosted on AWS, and is planned to interact with 
 The purpose of the application is to store notes with tags so that those notes may be later referenced across months and years.
 
 ### Using the service locally
-To run the Java application, install Docker desktop, install maven, and run the [docker-compose-up.sh](https://github.com/matthewjohnson42/pesonal-memex-service/scripts/docker-compose-up.sh) script.
+To run the Java application, install Docker desktop, install maven, and run the [docker-compose-up.sh](https://github.com/matthewjohnson42/pesonal-memex-service/docker/docker-compose-up.sh) script.
 
 ### Using the hosted service
 Coming soon
