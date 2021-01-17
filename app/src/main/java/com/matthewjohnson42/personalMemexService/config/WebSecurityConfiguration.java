@@ -24,10 +24,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/api/v0/auth").permitAll()
-                .antMatchers("/api/v0/user").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().csrf().ignoringAntMatchers("/api/v0/auth")
-                .and().csrf().ignoringAntMatchers("/api/v0/user")
                 .and().cors()
 //                .and().requiresChannel().anyRequest().requiresSecure() // this can be done using Nginx
                 .and().oauth2ResourceServer().jwt( /* enables bearer authentication tokens */
