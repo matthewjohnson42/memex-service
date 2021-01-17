@@ -4,16 +4,21 @@ services:
   memex_mongo01:
     image: memex-mongo:0.0.1
     container_name: memex-mongo01
-    volumes:
-      - mongo01:/data/db
-    ports:
-      - 27017:27017
-    networks:
-      - memex-backend
+    volumes: [ mongo01:/data/db ]
+    ports: [ 27017:27017 ]
+    networks: [ memex-backend ]
+  memex_init:
+    image: memex-mongo:0.0.1
+    container_name: memex-mongo-init
+    depends_on: [ memex_mongo01 ]
+    restart: "no"
+    entrypoint: ["/bin/sh", "/dbInit.sh"]
+    networks: [ memex-backend ]
 
 volumes:
   mongo01:
     driver: local
+    name: memex-mongo01
 
 networks:
   memex-backend:

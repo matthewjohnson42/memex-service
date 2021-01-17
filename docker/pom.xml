@@ -1,0 +1,12 @@
+<project>
+    <!-- maven module configurations -->
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.matthewjohnson42</groupId>
+        <artifactId>memex-parent</artifactId>
+        <version>0.0.1</version>
+    </parent>
+    <artifactId>memex-docker</artifactId>
+    <version>0.0.1</version>
+    <name>Personal Memex Service Docker Build</name>
+</project>
