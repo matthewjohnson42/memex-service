@@ -73,11 +73,15 @@
               <goal>shade</goal>
             </goals>
             <configuration>
-              <artifactSet>
-                <excludes>
-                  <exclude>org.bouncycastle:bcprov-jdk15on</exclude>
-                </excludes>
-              </artifactSet>
+              <filters>
+                <filter>
+                  <artifact>org.bouncycastle:bcprov-jdk15on</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <createDependencyReducedPom>false</createDependencyReducedPom>
               <finalName>personal-memex-service-${project.version}</finalName>
               <!-- reference: https://stackoverflow.com/questions/33687492 -->
@@ -88,10 +92,6 @@
                 </transformer>
                 <transformer
                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                <transformer
-                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.matthewjohnson42.personalMemexService.PersonalMemexServiceApplication</mainClass>
-                </transformer>
               </transformers>
             </configuration>
           </execution>
