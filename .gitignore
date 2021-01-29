@@ -1,4 +1,5 @@
 .idea
 *iml
 app/target
+docker/target
 docker/docker-delete.sh

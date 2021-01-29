@@ -1,9 +1,36 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: elasticsearch-sc
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-svc
+  labels:
+    name: elasticsearch-svc
+spec:
+  ports:
+    - port: 9200
+      targetPort: 9200
+    - port: 9300
+      targetPort: 9300
+  clusterIP: None
+#  selector:
+#    role: elasticsearch
+
+---
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: es01-pv
+  name: elasticsearch-pv
   labels:
-    component: memex-es01
+    component: memex-elasticsearch
 spec:
   capacity:
     storage: 4097M
@@ -18,18 +45,20 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - ip-172-26-6-83
+                - master-kube-node
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: es01-pvc
+  name: elasticsearch-pvc
   labels:
-    component: memex-es01
+    component: memex-elasticsearch
 spec:
-  volumeName: es01-pv
+  volumeName: elasticsearch-pv
+  #quotes?
+  storageClassName: elasticsearch-sc
   accessModes: [ ReadWriteOnce ]
   resources:
     requests:
@@ -38,28 +67,29 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: memex-es01
+  name: memex-elasticsearch
   labels:
-    component: memex-es01
+    component: memex-elasticsearch
 spec:
   selector:
     matchLabels:
-      component: memex-es01
+      component: memex-elasticsearch
+  serviceName: elasticsearch-svc
   template:
     metadata:
       labels:
-        component: memex-es01
+        component: memex-elasticsearch
     spec:
       containers:
-      - name: memex-es01
+      - name: memex-elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-        ports:
-        - containerPort: 9200
-          hostPort: 9200
-        - containerPort: 9300
-          hostPort: 9300
+#        ports:
+#        - containerPort: 9200
+#          hostPort: 9200
+#        - containerPort: 9300
+#          hostPort: 9300
         env:
         - name: "node.name"
           value: "memex-es01"
@@ -73,8 +103,8 @@ spec:
           value: "-Xms512m -Xmx512m"
         volumeMounts:
           - mountPath: /usr/share/elasticsearch/data
-            name: es01
+            name: elasticsearch-volume
       volumes:
-      - name: es01
+      - name: elasticsearch-volume
         persistentVolumeClaim:
-          claimName: es01-pvc
+          claimName: elasticsearch-pvc

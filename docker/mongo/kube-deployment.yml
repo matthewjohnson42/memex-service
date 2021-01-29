@@ -1,0 +1,108 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: mongo-sc
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc
+  labels:
+    name: mongo-svc
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  clusterIP: None
+  selector:
+    role: mongo
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+  labels:
+    component: memex-mongo
+spec:
+  capacity:
+    storage: 4097M
+  accessModes: [ ReadWriteOnce ]
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /data/db
+  storageClassName: mongo-sc
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - master-kube-node
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+  labels:
+    component: memex-mongo
+spec:
+  volumeName: mongo-pv
+  #quotes were here
+  storageClassName: mongo-sc
+  accessModes: [ ReadWriteOnce ]
+  resources:
+    requests:
+      storage: 4097M
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: memex-mongo
+spec:
+  selector:
+    matchLabels:
+      component: memex-mongo
+  # quotes were here
+  serviceName: mongo-svc
+  template:
+    metadata:
+      labels:
+        component: memex-mongo
+    spec:
+      containers:
+        - name: memex-mongo
+          image: memex-mongo:0.0.1
+#          ports:
+#            - containerPort: 27017
+#              hostPort: 27017
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-volume
+      volumes:
+        - name: mongo-volume
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memex-mongo-sidecar
+spec:
+  containers:
+    - name: memex-mongo-sidecar
+      image: memex-mongo:0.0.1
+      command: ["sh"]
+      args: ["/dbInit.sh"]
