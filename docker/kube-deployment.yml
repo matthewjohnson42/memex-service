@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: memex-service-svc
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  clusterIp: None
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memex-service
+spec:
+  selector:
+    matchLabels:
+      component: memex-service
+  template:
+    metadata:
+      name: memex-service
+    spec:
+      containers:
+        - name: memex-service
+          image: memex-service:0.0.1
+          env:
+            - name: MONGO_HOST
+              value: memex-mongo01
+            - name: MONGO_PORT
+              value: 27017
+            - name: ELASTICSEARCH_HOST
+              value: memex-es01
+            - name: ELASTICSEARCH_PORT
+              value: 9200
+            - name: TOKEN_ENC_KEY_SECRET
+              value: avaluefromasecretvault
+            - name: USERPASS_ENC_KEY_SECRET
+              value: adifferentvaluefromasecretvault
