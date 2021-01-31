@@ -1,6 +1,7 @@
 package com.matthewjohnson42.personalMemexService.web.filter.auth;
 
 import com.matthewjohnson42.personalMemexService.logic.service.AuthService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+@Profile("prod")
 @Component
 public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 

@@ -26,9 +26,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v0/auth").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().csrf().ignoringAntMatchers("/api/v0/auth")
-                .and().cors()
-//                .and().requiresChannel().anyRequest().requiresSecure() // this can be done using Nginx
-                .and().oauth2ResourceServer().jwt( /* enables bearer authentication tokens */
+//                .and().cors() // todo need to configure CORS
+//                .and().requiresChannel().anyRequest().requiresSecure() // todo this can be done using Nginx
+                .and().oauth2ResourceServer().jwt(
                     jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)
                 );
     }
