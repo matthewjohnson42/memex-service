@@ -27,14 +27,14 @@ spec:
           image: memex-service:0.0.1
           env:
             - name: MONGO_HOST
-              value: memex-mongo01
+              value: localhost
             - name: MONGO_PORT
               value: 27017
             - name: ELASTICSEARCH_HOST
-              value: memex-es01
+              value: localhost
             - name: ELASTICSEARCH_PORT
               value: 9200
             - name: TOKEN_ENC_KEY_SECRET
-              value: avaluefromasecretvault
+              value: ${TOKEN_ENC_KEY_SECRET}
             - name: USERPASS_ENC_KEY_SECRET
-              value: adifferentvaluefromasecretvault
+              value: ${USERPASS_ENC_KEY_SECRET}

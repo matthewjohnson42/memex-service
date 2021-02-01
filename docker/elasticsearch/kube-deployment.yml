@@ -2,6 +2,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: elasticsearch-sc
+  labels:
+    component: memex-elasticsearch
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 
@@ -12,16 +14,18 @@ kind: Service
 metadata:
   name: elasticsearch-svc
   labels:
-    name: elasticsearch-svc
+    component: memex-elasticsearch
 spec:
   ports:
-    - port: 9200
-      targetPort: 9200
-    - port: 9300
-      targetPort: 9300
-  clusterIP: None
-#  selector:
-#    role: elasticsearch
+  - name: "9200-svc"
+    port: 9200
+    targetPort: 9200
+  - name: "9300-svc"
+    port: 9300
+    targetPort: 9300
+  clusterIP: ${ELASTICSEARCH_IP}
+  selector:
+    component: memex-elasticsearch
 
 ---
 
@@ -38,14 +42,15 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   local:
     path: /data/es
+  storageClassName: elasticsearch-sc
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - master-kube-node
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-kube-node
 
 ---
 
@@ -57,7 +62,6 @@ metadata:
     component: memex-elasticsearch
 spec:
   volumeName: elasticsearch-pv
-  #quotes?
   storageClassName: elasticsearch-sc
   accessModes: [ ReadWriteOnce ]
   resources:
@@ -85,11 +89,13 @@ spec:
       containers:
       - name: memex-elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
-#        ports:
-#        - containerPort: 9200
-#          hostPort: 9200
-#        - containerPort: 9300
-#          hostPort: 9300
+        ports:
+        - name: "9200-ss"
+          containerPort: 9200
+          hostPort: 9200
+        - name: "9300-ss"
+          containerPort: 9300
+          hostPort: 9300
         env:
         - name: "node.name"
           value: "memex-es01"

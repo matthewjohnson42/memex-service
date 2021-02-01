@@ -2,6 +2,8 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: mongo-sc
+  labels:
+    component: memex-mongo
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 
@@ -12,14 +14,14 @@ kind: Service
 metadata:
   name: mongo-svc
   labels:
-    name: mongo-svc
+    name: memex-mongo
 spec:
   ports:
-    - port: 27017
-      targetPort: 27017
-  clusterIP: None
+  - port: 27017
+    targetPort: 27017
+  clusterIP: ${MONGO_IP}
   selector:
-    role: mongo
+    component: memex-mongo
 
 ---
 
@@ -40,11 +42,11 @@ spec:
   nodeAffinity:
     required:
       nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - master-kube-node
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-kube-node
 
 ---
 
@@ -56,7 +58,6 @@ metadata:
     component: memex-mongo
 spec:
   volumeName: mongo-pv
-  #quotes were here
   storageClassName: mongo-sc
   accessModes: [ ReadWriteOnce ]
   resources:
@@ -69,11 +70,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: memex-mongo
+  labels:
+    component: memex-mongo
 spec:
   selector:
     matchLabels:
       component: memex-mongo
-  # quotes were here
   serviceName: mongo-svc
   template:
     metadata:
@@ -81,28 +83,33 @@ spec:
         component: memex-mongo
     spec:
       containers:
-        - name: memex-mongo
-          image: memex-mongo:0.0.1
-#          ports:
-#            - containerPort: 27017
-#              hostPort: 27017
-          volumeMounts:
-            - mountPath: /data/db
-              name: mongo-volume
+      - name: memex-mongo
+        image: memex-mongo:0.0.1
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongo-volume
       volumes:
-        - name: mongo-volume
-          persistentVolumeClaim:
-            claimName: mongo-pvc
+      - name: mongo-volume
+        persistentVolumeClaim:
+          claimName: mongo-pvc
 
 ---
 
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: memex-mongo-sidecar
 spec:
-  containers:
-    - name: memex-mongo-sidecar
-      image: memex-mongo:0.0.1
-      command: ["sh"]
-      args: ["/dbInit.sh"]
+  template:
+    spec:
+      containers:
+      - name: memex-mongo-sidecar
+        image: memex-mongo:0.0.1
+        command: ["sh"]
+        args: ["/dbInit.sh"]
+        env:
+        - name: "MONGO_HOST"
+          value: "${MONGO_IP}"
+        - name: "MONGO_DEFAULT_USER_PW"
+          value: "${MONGO_DEFAULT_USER_PW}"
+      restartPolicy: Never
