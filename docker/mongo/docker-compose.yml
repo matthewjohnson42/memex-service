@@ -10,6 +10,9 @@ services:
   memex_init:
     image: memex-mongo:0.0.1
     container_name: memex-mongo-init
+    environment:
+      - MONGO_HOST=memex-mongo01
+      - MONGO_DEFAULT_USER_PW=${MONGO_DEFAULT_USER_PW}
     depends_on: [ memex_mongo01 ]
     restart: "no"
     entrypoint: ["/bin/sh", "/dbInit.sh"]

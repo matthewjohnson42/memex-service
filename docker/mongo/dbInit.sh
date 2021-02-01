@@ -1,2 +1,3 @@
 sleep 10
-mongo --host memex-mongo01:27017 < /dbInit.js
+cat /dbInit.js | sed "s/\${MONGO_DEFAULT_USER_PW}/${MONGO_DEFAULT_USER_PW}/g" > /dbInitInterpolated.sh
+mongo --host ${MONGO_HOST}:27017 < /dbInitInterpolated.sh
