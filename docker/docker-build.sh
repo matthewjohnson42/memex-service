@@ -1,3 +1,5 @@
+#! /bin/bash
+
 # script for building Docker images of:
 #   a mongo database,
 #   an elasticsearch service,
@@ -7,4 +9,4 @@
 
 docker build --tag memex-mongo:0.0.1 --file mongo/Dockerfile ..
 mvn clean install -f ../app/pom.xml
-docker build --tag memex-service:0.0.1 --file Dockerfile ..
+docker build --tag memex-service:0.0.1 --file app/Dockerfile ..
