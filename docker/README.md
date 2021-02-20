@@ -2,11 +2,7 @@
 
 A module containing scripts and files that are used to start docker containers for the app, a Mongo instance, and an ElasticSearch instance. These containers comprise the full backend of the personal-memex.
 
-## process
-
 Helper scripts prepare the execution environment for Docker image builds, run the Docker image builds, then use docker-compose to start docker containers from the built Docker images. Root helper script is `docker-compose-up.sh`.
-
-The docker container for Mongo uses a two-phase start process. The first phase starts a container with the Mongo instance to be utilized by the app. The second phase starts a temporary container that initializes the first with default user data,
 
 ## module contents
 
