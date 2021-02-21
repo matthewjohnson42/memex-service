@@ -10,7 +10,7 @@ security:
   oauth2:
     encKeySecret: ${TOKEN_ENC_KEY_SECRET:howMuchABulldozerCares}
   userPassword:
-    encKeySecret: ${USERPASS_ENC_KEY_SECRET:absolutelyNoneAtAll}
+    encKeySecret: ${USERPASS_ENC_KEY_SECRET:notAtAll}
 
 ---
 spring.profiles: dev
