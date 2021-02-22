@@ -26,7 +26,7 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return "documents";
+        return "memex";
     }
 
 }

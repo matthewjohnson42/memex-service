@@ -1,5 +1,5 @@
 
-use documents;
+use memex;
 now = new ISODate();
 
 db.userDetails.insertOne({
