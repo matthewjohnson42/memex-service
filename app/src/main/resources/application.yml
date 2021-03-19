@@ -13,12 +13,6 @@ security:
     encKeySecret: ${USERPASS_ENC_KEY_SECRET:notAtAll}
 
 ---
-spring.profiles: dev
-management:
-  endpoints:
-    web:
-      cors:
-        allowed-origins: http://localhost:4200/*
-
----
 spring.profiles: prod
+cors:
+  allowed-origins: "https://personal-memex-service.matthewjohnson42.com, https://memex.matthewjohnson42.com"
