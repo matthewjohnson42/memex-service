@@ -9,4 +9,4 @@ docker build --tag memex-service:0.0.1 --file app/Dockerfile ..
 docker-compose --file mongo/docker-compose.yml up --detach
 docker-compose --file elasticsearch/docker-compose.yml up --detach
 echo "waiting for elastic to initialize" && sleep 15
-docker-compose --file docker-compose.yml up --detach
+docker-compose --file app/docker-compose.yml up --detach
