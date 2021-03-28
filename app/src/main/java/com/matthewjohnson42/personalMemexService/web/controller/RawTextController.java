@@ -3,12 +3,11 @@ package com.matthewjohnson42.personalMemexService.web.controller;
 import com.matthewjohnson42.personalMemexService.data.dto.IdListDto;
 import com.matthewjohnson42.personalMemexService.data.dto.PageRequestDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
-import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchDto;
+import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.personalMemexService.logic.service.DataTransferService;
 import com.matthewjohnson42.personalMemexService.logic.service.RawTextService;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +61,7 @@ public class RawTextController {
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/search")
-    public Page<RawTextDto> search(@RequestBody RawTextSearchDto searchDto) {
+    public Page<RawTextDto> search(@RequestBody RawTextSearchRequestDto searchDto) {
         return rawTextService.search(searchDto);
     }
 

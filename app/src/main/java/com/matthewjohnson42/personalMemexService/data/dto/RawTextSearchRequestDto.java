@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public class RawTextSearchDto {
+public class RawTextSearchRequestDto {
 
     private String searchString;
     private int pageSize;
@@ -16,7 +16,7 @@ public class RawTextSearchDto {
     private LocalDateTime endUpdateDate;
 
     @JsonCreator
-    RawTextSearchDto(
+    RawTextSearchRequestDto(
             @JsonProperty(value="searchString", required=true) String searchString,
             @JsonProperty(value="pageSize", required=true) int pageSize,
             @JsonProperty(value="pageNumber", required=true) int pageNumber,
@@ -45,7 +45,7 @@ public class RawTextSearchDto {
         return searchString;
     }
 
-    public RawTextSearchDto setSearchString(String searchString) {
+    public RawTextSearchRequestDto setSearchString(String searchString) {
         this.searchString = searchString;
         return this;
     }
@@ -54,7 +54,7 @@ public class RawTextSearchDto {
         return pageSize;
     }
 
-    public RawTextSearchDto setPageSize(int pageSize) {
+    public RawTextSearchRequestDto setPageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;
     }
@@ -63,7 +63,7 @@ public class RawTextSearchDto {
         return pageNumber;
     }
 
-    public RawTextSearchDto setPageNumber(int pageNumber) {
+    public RawTextSearchRequestDto setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
         return this;
     }
@@ -72,7 +72,7 @@ public class RawTextSearchDto {
         return startCreateDate;
     }
 
-    public RawTextSearchDto setStartCreateDate(LocalDateTime startCreateDate) {
+    public RawTextSearchRequestDto setStartCreateDate(LocalDateTime startCreateDate) {
         this.startCreateDate = startCreateDate;
         return this;
     }
@@ -81,7 +81,7 @@ public class RawTextSearchDto {
         return endCreateDate;
     }
 
-    public RawTextSearchDto setEndCreateDate(LocalDateTime endCreateDate) {
+    public RawTextSearchRequestDto setEndCreateDate(LocalDateTime endCreateDate) {
         this.endCreateDate = endCreateDate;
         return this;
     }
@@ -90,7 +90,7 @@ public class RawTextSearchDto {
         return startUpdateDate;
     }
 
-    public RawTextSearchDto setStartUpdateDate(LocalDateTime startUpdateDate) {
+    public RawTextSearchRequestDto setStartUpdateDate(LocalDateTime startUpdateDate) {
         this.startUpdateDate = startUpdateDate;
         return this;
     }
@@ -99,7 +99,7 @@ public class RawTextSearchDto {
         return endUpdateDate;
     }
 
-    public RawTextSearchDto setEndUpdateDate(LocalDateTime endUpdateDate) {
+    public RawTextSearchRequestDto setEndUpdateDate(LocalDateTime endUpdateDate) {
         this.endUpdateDate = endUpdateDate;
         return this;
     }

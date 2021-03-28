@@ -36,6 +36,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
     private String rawTextUrl;
     private String rawTextDocUrl;
     private String rawTextSearchUrl;
+    // todo split these out into resource files
     private final String findByIdQuery = "{\"query\":{\"term\":{\"id\":\"%s\"}}}\n";
     private final String searchByContentWithDateQuery = "{\"from\":%s,\"size\":%s,\"query\":{\"bool\":{\"must\":" +
             "{\"match\":{\"textContent\":{\"query\":\"%s\",\"fuzziness\":%s}}},\"filter\":[{\"range\":" +

@@ -8,8 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+// todo should be updated to hook the request filter at an earlier stage (prior to Spring Security filter chain)
 /**
- * Implements a logger for all inbound HTTP requests
+ * Implements a logger for inbound HTTP requests
  */
 public class RequestLoggingInterceptor implements HandlerInterceptor {
 

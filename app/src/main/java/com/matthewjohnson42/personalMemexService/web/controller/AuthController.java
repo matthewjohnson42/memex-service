@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Web server HTTP request controller for authentication and authorization requests
+ */
 @Profile("prod")
 @RestController
 @RequestMapping(path="/api/v0/auth")
