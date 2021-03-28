@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Web server HTTP request controller for the user data type.
+ */
 @RestController
 @RequestMapping("/api/v0/user")
 public class UserController {

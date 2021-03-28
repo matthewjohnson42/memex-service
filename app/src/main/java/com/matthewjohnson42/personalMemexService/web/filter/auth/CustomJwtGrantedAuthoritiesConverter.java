@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+/**
+ * Provides Spring authorities objects during the handling of a request by the Spring Security filter.
+ * Takes a JWT as input (includes encoded information about the user).
+ */
 @Profile("prod")
 @Component
 public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {

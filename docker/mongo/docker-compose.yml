@@ -2,20 +2,10 @@
 version: '3.8'
 services:
   memex_mongo01:
-    image: memex-mongo:0.0.1
+    image: mongo:4.2.8-bionic
     container_name: memex-mongo01
     volumes: [ mongo01:/data/db ]
     ports: [ 27017:27017 ]
-    networks: [ memex-backend ]
-  memex_init:
-    image: memex-mongo:0.0.1
-    container_name: memex-mongo-init
-    environment:
-      - MONGO_HOST=memex-mongo01
-      - MONGO_DEFAULT_USER_PW=${MONGO_DEFAULT_USER_PW}
-    depends_on: [ memex_mongo01 ]
-    restart: "no"
-    entrypoint: ["/bin/sh", "/dbInit.sh"]
     networks: [ memex-backend ]
 
 volumes:
