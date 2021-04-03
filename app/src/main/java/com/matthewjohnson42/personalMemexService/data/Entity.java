@@ -16,6 +16,13 @@ public abstract class Entity<ID> {
 
     public abstract Entity<ID> setId(ID id);
 
+    public Entity() { }
+
+    public Entity(Entity<ID> entity) {
+        this.createDateTime = entity.getCreateDateTime();
+        this.updateDateTime = entity.getUpdateDateTime();
+    }
+
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
     public LocalDateTime getCreateDateTime() {
         return createDateTime;

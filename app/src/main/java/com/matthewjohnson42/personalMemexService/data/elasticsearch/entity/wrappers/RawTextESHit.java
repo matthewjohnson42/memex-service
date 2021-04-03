@@ -5,6 +5,7 @@ import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTe
 public class RawTextESHit {
 
     private RawTextES _source;
+    private RawTextESHighlight highlight;
 
     public RawTextESHit() { }
 
@@ -13,6 +14,14 @@ public class RawTextESHit {
     }
     public RawTextES get_source() {
         return _source;
+    }
+
+    public RawTextESHit setHighlight(RawTextESHighlight highlight) {
+        this.highlight = highlight;
+        return this;
+    }
+    public RawTextESHighlight getHighlight() {
+        return highlight;
     }
 
 }

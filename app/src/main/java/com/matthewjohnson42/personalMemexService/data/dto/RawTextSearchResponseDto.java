@@ -1,15 +1,23 @@
 package com.matthewjohnson42.personalMemexService.data.dto;
 
+import java.util.List;
+
 public class RawTextSearchResponseDto extends RawTextDto {
 
-    private String gloss;
+    private List<String> highlights;
 
-    public RawTextSearchResponseDto setGloss(String gloss) {
-        this.gloss = gloss;
+    public RawTextSearchResponseDto() {}
+
+    public RawTextSearchResponseDto(RawTextSearchResponseDto rawTextSearchResponseDto) {
+        super(rawTextSearchResponseDto);
+    }
+
+    public List<String> getHighlights() {
+        return highlights;
+    }
+    public RawTextSearchResponseDto setHighlights(List<String> highlights) {
+        this.highlights = highlights;
         return this;
     }
 
-    public String getGloss() {
-        return gloss;
-    }
 }

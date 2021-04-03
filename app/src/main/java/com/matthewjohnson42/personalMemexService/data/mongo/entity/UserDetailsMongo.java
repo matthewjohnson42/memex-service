@@ -14,6 +14,15 @@ public class UserDetailsMongo extends Entity<String> {
     private String password;
     private Set<String> authorities;
 
+    public UserDetailsMongo() { }
+
+    public UserDetailsMongo(UserDetailsMongo userDetailsMongo) {
+        super(userDetailsMongo);
+        this.username = userDetailsMongo.getUsername();
+        this.password = userDetailsMongo.getPassword();
+        this.authorities = userDetailsMongo.getAuthorities();
+    }
+
     @Override
     public String getId() {
         return username;

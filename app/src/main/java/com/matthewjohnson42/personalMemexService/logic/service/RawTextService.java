@@ -4,6 +4,7 @@ import com.matthewjohnson42.personalMemexService.data.dto.IdListDto;
 import com.matthewjohnson42.personalMemexService.data.dto.PageRequestDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchRequestDto;
+import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchResponseDto;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.service.RawTextESService;
 import com.matthewjohnson42.personalMemexService.data.mongo.service.RawTextMongoService;
 import com.matthewjohnson42.personalMemexService.logic.util.StringUtils;
@@ -76,7 +77,7 @@ public class RawTextService {
                 });
     }
 
-    public Page<RawTextDto> search(RawTextSearchRequestDto rawTextSearchDto) {
+    public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchDto) {
         return rawTextESService.search(
                 rawTextSearchDto.getSearchString(),
                 rawTextSearchDto.getStartCreateDate(),

@@ -18,6 +18,13 @@ public class UserDetailsDto extends DtoForEntity<String> {
         authorities = new HashSet<>();
     }
 
+    public UserDetailsDto(UserDetailsDto userDetailsDto) {
+        super(userDetailsDto);
+        this.username = userDetailsDto.getUsername();
+        this.password = userDetailsDto.getPassword();
+        this.authorities = userDetailsDto.getAuthorities();
+    }
+
     @JsonCreator
     public UserDetailsDto(
             @JsonProperty(value="username", required=true) String username,
