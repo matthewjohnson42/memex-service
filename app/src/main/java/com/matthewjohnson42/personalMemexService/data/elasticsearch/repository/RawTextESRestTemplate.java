@@ -2,10 +2,12 @@ package com.matthewjohnson42.personalMemexService.data.elasticsearch.repository;
 
 import com.matthewjohnson42.personalMemexService.config.ElasticSearchConfiguration;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
+import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextESComposite;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.wrappers.RawTextESHit;
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.wrappers.RawTextESWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -36,19 +38,14 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
     private String rawTextUrl;
     private String rawTextDocUrl;
     private String rawTextSearchUrl;
-    // todo split these out into resource files
-    private final String findByIdQuery = "{\"query\":{\"term\":{\"id\":\"%s\"}}}\n";
-    private final String searchByContentWithDateQuery = "{\"from\":%s,\"size\":%s,\"query\":{\"bool\":{\"must\":" +
-            "{\"match\":{\"textContent\":{\"query\":\"%s\",\"fuzziness\":%s}}},\"filter\":[{\"range\":" +
-            "{\"createDateTime\":{\"gte\":%s,\"lte\":%s}}},{\"range\":{\"updateDateTime\":{\"gte\":%s,\"lte\":%s}}}" +
-            "]}},\"sort\":[{\"_score\":{\"order\":\"desc\"}}]}";
-    private final String rawTextIndexCreateQuery = "{\"mappings\":{\"properties\":{\"id\":{\"type\":\"text\"," +
-            "\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"textContent\":{\"type\":" +
-            "\"text\",\"fields\":{\"keyword\":{\"type\":\"keyword\",\"ignore_above\":256}}},\"createDateTime\":{" +
-            "\"type\":\"date\",\"format\":\"strict_date_hour_minute_second_millis\"},\"updateDateTime\":{\"type\":" +
-            "\"date\",\"format\":\"strict_date_hour_minute_second_millis\"}}}}";
+    private final String rawTextSearchByIdQuery;
+    private final String rawTextSearchByTextContentQuery;
+    private final String rawTextCreateIndexCommand;
 
     public RawTextESRestTemplate(ElasticSearchConfiguration config) {
+        this.rawTextSearchByIdQuery = config.getRawTextSearchById();
+        this.rawTextSearchByTextContentQuery = config.getRawTextSearchByTextContent();
+        this.rawTextCreateIndexCommand = config.getRawTextCreateIndex();
         rawTextUrl = String.format("http://%s:%s/rawtext", config.getHostName(), config.getHostPort());
         rawTextSearchUrl = String.format("http://%s:%s/rawtext/_search", config.getHostName(), config.getHostPort());
         rawTextDocUrl = String.format("http://%s:%s/rawtext/_doc/{id}", config.getHostName(), config.getHostPort());
@@ -56,7 +53,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
     }
 
     public Optional<RawTextES> findById(String id) {
-        String query = String.format(findByIdQuery, id);
+        String query = String.format(rawTextSearchByIdQuery, id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> requestBody = new HttpEntity<>(query, headers);
@@ -81,7 +78,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
         return rawTextES; // do not use "findIfExists" to validate stored value given HTTP request latency and non-blocking nature
     }
 
-    public Page<RawTextES> getPageFromSearchString(
+    public Page<RawTextESComposite> getPageFromSearchString(
             String searchString,
             LocalDateTime startCreateDate,
             LocalDateTime endCreateDate,
@@ -97,7 +94,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
         String endCreate = endCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(endCreateDate) + "\"";
         String startUpdate = startUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(startUpdateDate) + "\"";
         String endUpdate = endUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(endUpdateDate) + "\"";
-        String query = String.format(searchByContentWithDateQuery,
+        String query = String.format(rawTextSearchByTextContentQuery,
                 startIndex,
                 pageSize,
                 searchString,
@@ -111,9 +108,11 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
         HttpEntity<String> request = new HttpEntity(query, headers);
         RawTextESWrapper responseBody = postForObject(rawTextSearchUrl, request, RawTextESWrapper.class);
         Integer totalHits = responseBody.getHits().getTotal().getValue();
-        List<RawTextES> pageContent = new ArrayList<>();
+        List<RawTextESComposite> pageContent = new ArrayList<>();
         for (RawTextESHit hit : responseBody.getHits().getHits()) {
-            pageContent.add(hit.get_source());
+            RawTextESComposite rawTextESComposite = new RawTextESComposite(hit.get_source());
+            rawTextESComposite.setHighlights(hit.getHighlight().getTextContent());
+            pageContent.add(rawTextESComposite);
         }
         return new PageImpl<>(pageContent, pageable, totalHits);
     }
@@ -136,7 +135,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
             logger.info("Did not find existing ElasticSearch index \"rawText\", proceeding with creation");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity(rawTextIndexCreateQuery, headers);
+            HttpEntity<String> request = new HttpEntity(rawTextCreateIndexCommand, headers);
             put(rawTextUrl, request);
             logger.info("Created ElasticSearch index \"rawText\"");
         }

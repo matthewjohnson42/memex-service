@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.matthewjohnson42.personalMemexService.data.DtoForEntity;
+import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextES;
 
 /**
  * A DTO representing the raw text entity as handled by the controller.
@@ -16,6 +17,12 @@ public class RawTextDto extends DtoForEntity<String> {
     private String textContent;
 
     public RawTextDto() { }
+
+    public RawTextDto(RawTextDto rawTextDto) {
+        super(rawTextDto);
+        this.id = rawTextDto.getId();
+        this.textContent = rawTextDto.getTextContent();
+    }
 
     @JsonCreator
     public RawTextDto(@JsonProperty(value="textContent", required=true) String textContent) {

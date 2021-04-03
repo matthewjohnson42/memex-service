@@ -17,6 +17,13 @@ public abstract class DtoForEntity<ID> {
     @JsonIgnore
     private LocalDateTime updateDateTime;
 
+    public DtoForEntity() { }
+
+    public DtoForEntity(DtoForEntity<ID> dto) {
+        this.createDateTime = dto.getCreateDateTime();
+        this.updateDateTime = dto.getUpdateDateTime();
+    }
+
     public abstract ID getId();
 
     public abstract DtoForEntity<ID> setId(ID id);

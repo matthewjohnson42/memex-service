@@ -17,6 +17,12 @@ public class RawTextMongo extends Entity<String> {
 
     public RawTextMongo() { }
 
+    public RawTextMongo(RawTextMongo rawTextMongo) {
+        super(rawTextMongo);
+        this.id = rawTextMongo.getId();
+        this.textContent = rawTextMongo.getTextContent();
+    }
+
     @Override
     public String getId() {
         return id;
