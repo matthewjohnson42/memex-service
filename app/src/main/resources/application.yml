@@ -15,4 +15,4 @@ security:
 ---
 spring.profiles: prod
 cors:
-  allowed-origins: "https://personal-memex-service.matthewjohnson42.com, https://memex.matthewjohnson42.com, http://localhost:8088, http://localhost:4200"
+  allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com"
