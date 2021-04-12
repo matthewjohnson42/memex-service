@@ -6,6 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Set;
 
+/**
+ * Mongo entity describing a user
+ */
 @Document(collection="userDetails")
 public class UserDetailsMongo extends Entity<String> {
 

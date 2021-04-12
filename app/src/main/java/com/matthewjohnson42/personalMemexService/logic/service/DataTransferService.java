@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service that implements data transfer logic between Repositories.
+ * @see com.matthewjohnson42.personalMemexService.data.Repository
+ */
 @Service
 public class DataTransferService implements ApplicationContextAware {
 
@@ -43,6 +47,7 @@ public class DataTransferService implements ApplicationContextAware {
     }
 
     /**
+     * Class that implements logic for loading Mongo data (source for truth) to ElasticSearch.
      * @param <ID> the ID type of the data being transferred
      * @param <D> the DTO type of the data being transferred
      * @param <M> the Mongo Entity type of the data being transferred
@@ -57,12 +62,11 @@ public class DataTransferService implements ApplicationContextAware {
         private int batchSize;
 
         /**
-         *
-         * @param mongoRepository
-         * @param mongoDtoConverter
-         * @param elasticRestTemplate
-         * @param elasticsearchConverter
-         * @param batchSize
+         * @param mongoRepository the Repository object for the Mongo entity
+         * @param mongoDtoConverter the DtoEntityConverter for the Mongo entity
+         * @param elasticRestTemplate the Repository object for the ElasticSearch entity
+         * @param elasticsearchConverter the DtoEntityConverter for the ElasticSearch entity
+         * @param batchSize number of records to transfer per mongo transaction (transaction binding not guaranteed)
          */
         public MongoToEsTranferrer(MongoRepository mongoRepository,
                                    DtoEntityConverter mongoDtoConverter,

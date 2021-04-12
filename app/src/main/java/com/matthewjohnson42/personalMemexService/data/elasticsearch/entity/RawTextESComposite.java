@@ -2,6 +2,9 @@ package com.matthewjohnson42.personalMemexService.data.elasticsearch.entity;
 
 import java.util.List;
 
+/**
+ * Entity for composing Elastic Search "raw text" source data with Elastic Search metadata.
+ */
 public class RawTextESComposite extends RawTextES {
 
     private List<String> highlights;

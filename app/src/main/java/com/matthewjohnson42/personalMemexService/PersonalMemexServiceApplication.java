@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import java.security.Security;
 
 /**
- * A simple application for storing text data in a Mongo repository
+ * An application for storing text data in a Mongo database with ElasticSearch for search
  */
 @EnableMongoRepositories
 @SpringBootApplication

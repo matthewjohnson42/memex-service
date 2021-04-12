@@ -7,6 +7,9 @@ import com.matthewjohnson42.personalMemexService.data.mongo.repository.UserDetai
 import com.matthewjohnson42.personalMemexService.data.DataService;
 import org.springframework.stereotype.Service;
 
+/**
+ * Data Service for implementing user details persistence logic
+ */
 @Service
 public class UserDetailsMongoService extends DataService<String, UserDetailsDto, UserDetailsMongo> {
 

@@ -16,6 +16,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
+// todo make generic in the type of the DTO being returned
+/**
+ * Service implementing raw text functions that operate across repository types.
+ * Intended interface for DataServices.
+ */
 @Service
 public class RawTextService {
 
