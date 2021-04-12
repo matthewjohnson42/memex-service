@@ -1,3 +1,5 @@
+spring.profiles.active: dev
+
 db:
   mongo:
     host: ${MONGO_HOST:localhost}
