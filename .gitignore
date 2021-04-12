@@ -3,3 +3,4 @@
 app/target
 docker/target
 docker/docker-delete.sh
+docker/mongo/dbInitInterpolated.js
