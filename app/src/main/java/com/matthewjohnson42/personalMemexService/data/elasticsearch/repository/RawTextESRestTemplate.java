@@ -89,7 +89,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
         Assert.notNull(pageable, "Pageable cannot be null");
         Integer startIndex = pageable.getPageNumber() * pageable.getPageSize();
         Integer pageSize = pageable.getPageSize();
-        Integer fuzziness = 2;
+        Integer fuzziness = 1;
         String startCreate = startCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(startCreateDate) + "\"";
         String endCreate = endCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(endCreateDate) + "\"";
         String startUpdate = startUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(startUpdateDate) + "\"";
