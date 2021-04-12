@@ -6,6 +6,9 @@ import com.matthewjohnson42.personalMemexService.data.mongo.entity.UserDetailsMo
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Entity/DTO converter for user details
+ */
 @Component
 public class UserDetailsMongoConverter implements DtoEntityConverter<String, UserDetailsDto, UserDetailsMongo> {
 

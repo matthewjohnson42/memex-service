@@ -5,6 +5,9 @@ import com.matthewjohnson42.personalMemexService.data.dto.RawTextDto;
 import com.matthewjohnson42.personalMemexService.data.mongo.entity.RawTextMongo;
 import org.springframework.stereotype.Component;
 
+/**
+ * Entity/DTO converter for raw text Mongo data
+ */
 @Component
 public class RawTextMongoConverter implements DtoEntityConverter<String, RawTextDto, RawTextMongo> {
 

@@ -29,6 +29,8 @@ import java.util.Optional;
  * Custom implementation of an ElasticSearch REST client. Used for accessing the ElasticSearch data store.
  * Chosen to address the failure of ElasticSearch to recognize complex, base 64 encoded queries submitted by
  * spring-data-elasticsearch.
+ *
+ * @see com.matthewjohnson42.personalMemexService.data.Repository
  */
 @Component
 public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES> {

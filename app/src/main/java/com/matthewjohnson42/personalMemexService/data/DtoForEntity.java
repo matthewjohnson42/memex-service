@@ -7,8 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 /**
- * Describes DTOs associated with an entity
+ * Describes DTOs associated with an {@link Entity}
+ * Returned from {@link DataService} extensions
+ *
  * @param <ID> the class of the id
+ *
+ * @see Entity
+ * @see DataService
+ * @see Repository
+ * @see DtoEntityConverter
  */
 public abstract class DtoForEntity<ID> {
 

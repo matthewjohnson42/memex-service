@@ -5,6 +5,9 @@ import com.matthewjohnson42.personalMemexService.data.dto.RawTextSearchResponseD
 import com.matthewjohnson42.personalMemexService.data.elasticsearch.entity.RawTextESComposite;
 import org.springframework.stereotype.Component;
 
+/**
+ * Entity/DTO converter for raw text ElasticSearch source data composed with ElasticSearch metadata
+ */
 @Component
 public class RawTextESCompositeConverter implements DtoEntityConverter<String, RawTextSearchResponseDto, RawTextESComposite> {
 

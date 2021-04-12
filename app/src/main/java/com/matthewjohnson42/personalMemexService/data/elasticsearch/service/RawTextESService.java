@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Data service implementing persistence logic for the raw text Elastic Search entity
+ */
 @Service
 public class RawTextESService extends DataService<String, RawTextDto, RawTextES> {
 

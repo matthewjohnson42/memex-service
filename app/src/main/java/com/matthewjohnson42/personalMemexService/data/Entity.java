@@ -5,7 +5,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 /**
- * Entities from any repository type referenced by the application
+ * Entities associated with the {@link Repository} object
+ *
+ * @see Repository
+ * @see DtoForEntity
+ * @see DataService
+ * @see DtoEntityConverter
  */
 public abstract class Entity<ID> {
 

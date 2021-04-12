@@ -9,10 +9,15 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * Describes a data service used for implementing persistence logic and transforming an entity to a DTO
+ * Describes a data service used for implementing persistence "business" logic and transforming an entity to a DTO
  * @param <ID> class of the ID used by both the DTO and the Entity
  * @param <D> class of the DTO, used for data transformations and serialization
  * @param <E> class of the Entity, used for data persistence
+ *
+ * @see Entity
+ * @see DtoForEntity
+ * @see Repository
+ * @see DtoEntityConverter
  */
 public abstract class DataService<ID, D extends DtoForEntity<ID>, E extends Entity<ID>> {
 
