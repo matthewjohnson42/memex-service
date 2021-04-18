@@ -8,5 +8,5 @@
     </parent>
     <artifactId>memex-docker</artifactId>
     <version>0.0.1</version>
-    <name>Personal Memex Service Docker Build</name>
+    <name>Memex Service Docker Build</name>
 </project>
