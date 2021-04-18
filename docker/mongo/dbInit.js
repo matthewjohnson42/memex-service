@@ -8,5 +8,5 @@ db.userDetails.insertOne({
     "authorities" : [],
     "createDateTime" : now,
     "updateDateTime" : now,
-    "_class" : "com.matthewjohnson42.personalMemexService.data.mongo.entity.UserDetailsMongo"
+    "_class" : "com.matthewjohnson42.memexService.data.mongo.entity.UserDetailsMongo"
 });

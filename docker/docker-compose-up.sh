@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # script for building docker images and starting them using docker-compose
-# assumes directory of invocation is personal-memex-service/docker, parent of this script
+# assumes directory of invocation is memex-service/docker, parent of this script
 
 if [[ -z ${MONGO_DEFAULT_USER_PW} ]]; then
   echo "Enter value for MONGO_DEFAULT_USER_PW: "
