@@ -5,7 +5,7 @@
     <groupId>com.matthewjohnson42</groupId>
     <artifactId>memex-parent</artifactId>
     <version>0.0.1</version>
-    <name>Personal Memex Service Parent Project</name>
+    <name>Memex Service Parent Project</name>
     <packaging>pom</packaging>
     <properties>
         <springbootVersion>2.3.0</springbootVersion>

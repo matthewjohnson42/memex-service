@@ -9,7 +9,7 @@
   </parent>
   <artifactId>memex-app</artifactId>
   <version>0.0.1</version>
-  <name>Personal Memex Service App</name>
+  <name>Memex Service App</name>
 
   <dependencies>
     <dependency>
@@ -83,7 +83,7 @@
                 </filter>
               </filters>
               <createDependencyReducedPom>false</createDependencyReducedPom>
-              <finalName>personal-memex-service-${project.version}</finalName>
+              <finalName>memex-service-${project.version}</finalName>
               <!-- reference: https://stackoverflow.com/questions/33687492 -->
               <transformers>
                 <transformer
