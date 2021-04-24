@@ -33,7 +33,7 @@
   },
   "sort": [
     {
-      "_score": {
+      "createDateTime": {
         "order": "desc"
       }
     }
