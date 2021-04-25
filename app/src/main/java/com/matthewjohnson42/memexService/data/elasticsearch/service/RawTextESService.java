@@ -3,14 +3,13 @@ package com.matthewjohnson42.memexService.data.elasticsearch.service;
 import com.matthewjohnson42.memexService.data.converter.RawTextESCompositeConverter;
 import com.matthewjohnson42.memexService.data.converter.RawTextESConverter;
 import com.matthewjohnson42.memexService.data.dto.RawTextDto;
+import com.matthewjohnson42.memexService.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.memexService.data.dto.RawTextSearchResponseDto;
 import com.matthewjohnson42.memexService.data.elasticsearch.entity.RawTextES;
 import com.matthewjohnson42.memexService.data.elasticsearch.entity.RawTextESComposite;
 import com.matthewjohnson42.memexService.data.elasticsearch.repository.RawTextESRestTemplate;
 import com.matthewjohnson42.memexService.data.DataService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,19 +33,16 @@ public class RawTextESService extends DataService<String, RawTextDto, RawTextES>
         this.rawTextESRestTemplate = rawTextESRestTemplate;
     }
 
-    public Page<RawTextSearchResponseDto> search(String searchString,
-                                   LocalDateTime startCreateDate,
-                                   LocalDateTime endCreateDate,
-                                   LocalDateTime startUpdateDate,
-                                   LocalDateTime endUpdateDate,
-                                   Pageable pageable) {
+    public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchRequestDto) {
         Page<RawTextESComposite> rawTextESPage = rawTextESRestTemplate.getPageFromSearchString(
-                searchString,
-                startCreateDate,
-                endCreateDate,
-                startUpdateDate,
-                endUpdateDate,
-                pageable);
+                rawTextSearchRequestDto.getSearchString(),
+                rawTextSearchRequestDto.getStartCreateDate(),
+                rawTextSearchRequestDto.getEndCreateDate(),
+                rawTextSearchRequestDto.getStartUpdateDate(),
+                rawTextSearchRequestDto.getEndUpdateDate(),
+                PageRequest.of(rawTextSearchRequestDto.getPageNumber(),
+                        rawTextSearchRequestDto.getPageSize(),
+                        Sort.by(Sort.Direction.DESC, "_score")));
         List<RawTextSearchResponseDto> rawTextDtos = rawTextESPage.get().map(
                 entity -> rawTextESCompositeConverter.convertEntity(entity)).collect(Collectors.toList()
         );
