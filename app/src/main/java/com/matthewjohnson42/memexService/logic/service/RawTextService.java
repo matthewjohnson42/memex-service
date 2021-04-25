@@ -1,5 +1,7 @@
 package com.matthewjohnson42.memexService.logic.service;
 
+import com.matthewjohnson42.memexService.config.MongoConfiguration;
+import com.matthewjohnson42.memexService.data.Repository;
 import com.matthewjohnson42.memexService.data.converter.RawTextDtoSearchResponseDtoConverter;
 import com.matthewjohnson42.memexService.data.dto.IdListDto;
 import com.matthewjohnson42.memexService.data.dto.PageRequestDto;
@@ -84,6 +86,18 @@ public class RawTextService {
     }
 
     public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchRequestDto) {
+        if (rawTextSearchRequestDto.getStartCreateDate() == null) {
+            rawTextSearchRequestDto.setStartCreateDate(MongoConfiguration.MIN_TIME);
+        }
+        if (rawTextSearchRequestDto.getEndCreateDate() == null) {
+            rawTextSearchRequestDto.setEndCreateDate(MongoConfiguration.MAX_TIME);
+        }
+        if (rawTextSearchRequestDto.getStartUpdateDate() == null) {
+            rawTextSearchRequestDto.setStartUpdateDate(MongoConfiguration.MIN_TIME);
+        }
+        if (rawTextSearchRequestDto.getEndUpdateDate() == null) {
+            rawTextSearchRequestDto.setEndUpdateDate(MongoConfiguration.MAX_TIME);
+        }
         if (org.springframework.util.StringUtils.isEmpty(rawTextSearchRequestDto.getSearchString())) {
             Page<RawTextDto> dtoPage = rawTextMongoService.getPage(rawTextSearchRequestDto);
             List<RawTextSearchResponseDto> responseDtos = new ArrayList<>();

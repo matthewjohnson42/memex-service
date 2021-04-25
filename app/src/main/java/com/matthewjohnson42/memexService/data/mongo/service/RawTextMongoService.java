@@ -7,10 +7,12 @@ import com.matthewjohnson42.memexService.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.memexService.data.mongo.entity.RawTextMongo;
 import com.matthewjohnson42.memexService.data.mongo.repository.RawTextMongoRepo;
 import com.matthewjohnson42.memexService.data.DataService;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
