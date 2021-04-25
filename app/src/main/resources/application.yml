@@ -1,5 +1,3 @@
-spring.profiles.active: dev
-
 db:
   mongo:
     host: ${MONGO_HOST:localhost}
@@ -14,7 +12,5 @@ security:
   userPassword:
     encKeySecret: ${USERPASS_ENC_KEY_SECRET:notAtAll}
 
----
-spring.profiles: prod
 cors:
   allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com"

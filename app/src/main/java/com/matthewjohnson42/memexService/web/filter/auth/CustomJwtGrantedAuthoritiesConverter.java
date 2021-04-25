@@ -1,7 +1,6 @@
 package com.matthewjohnson42.memexService.web.filter.auth;
 
 import com.matthewjohnson42.memexService.logic.service.AuthService;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -13,7 +12,6 @@ import java.util.Collection;
  * Provides Spring authorities objects during the handling of a request by the Spring Security filter.
  * Takes a JWT as input (includes encoded information about the user).
  */
-@Profile("prod")
 @Component
 public class CustomJwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
 
