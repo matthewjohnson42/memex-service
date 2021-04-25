@@ -11,6 +11,7 @@ import com.matthewjohnson42.memexService.data.elasticsearch.repository.RawTextES
 import com.matthewjohnson42.memexService.data.DataService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +35,7 @@ public class RawTextESService extends DataService<String, RawTextDto, RawTextES>
     }
 
     public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchRequestDto) {
+        String sortOrder = rawTextSearchRequestDto.getSort();
         Page<RawTextESComposite> rawTextESPage = rawTextESRestTemplate.getPageFromSearchString(
                 rawTextSearchRequestDto.getSearchString(),
                 rawTextSearchRequestDto.getStartCreateDate(),
@@ -42,7 +44,9 @@ public class RawTextESService extends DataService<String, RawTextDto, RawTextES>
                 rawTextSearchRequestDto.getEndUpdateDate(),
                 PageRequest.of(rawTextSearchRequestDto.getPageNumber(),
                         rawTextSearchRequestDto.getPageSize(),
-                        Sort.by(Sort.Direction.DESC, "_score")));
+                        Sort.by(Sort.Direction.fromString(
+                                !StringUtils.isEmpty(sortOrder) ? sortOrder : "DESC"),
+                                "createDateTime")));
         List<RawTextSearchResponseDto> rawTextDtos = rawTextESPage.get().map(
                 entity -> rawTextESCompositeConverter.convertEntity(entity)).collect(Collectors.toList()
         );

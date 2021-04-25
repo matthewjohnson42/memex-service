@@ -1,15 +1,19 @@
 package com.matthewjohnson42.memexService.data.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RawTextSearchResponseDto extends RawTextDto {
 
     private List<String> highlights;
 
-    public RawTextSearchResponseDto() {}
+    public RawTextSearchResponseDto() {
+        highlights = new ArrayList<>();
+    }
 
     public RawTextSearchResponseDto(RawTextSearchResponseDto rawTextSearchResponseDto) {
         super(rawTextSearchResponseDto);
+        this.highlights = rawTextSearchResponseDto.getHighlights();
     }
 
     public List<String> getHighlights() {

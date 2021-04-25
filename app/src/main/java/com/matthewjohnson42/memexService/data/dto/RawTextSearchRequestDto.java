@@ -5,11 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public class RawTextSearchRequestDto {
+public class RawTextSearchRequestDto extends PageRequestDto {
 
     private String searchString;
-    private int pageSize;
-    private int pageNumber;
     private LocalDateTime startCreateDate;
     private LocalDateTime endCreateDate;
     private LocalDateTime startUpdateDate;
@@ -17,28 +15,22 @@ public class RawTextSearchRequestDto {
 
     @JsonCreator
     RawTextSearchRequestDto(
-            @JsonProperty(value="searchString", required=true) String searchString,
-            @JsonProperty(value="pageSize", required=true) int pageSize,
-            @JsonProperty(value="pageNumber", required=true) int pageNumber,
-            @JsonProperty(value="startCreateDate", required=false) LocalDateTime startCreateDate,
-            @JsonProperty(value="endCreateDate", required=false) LocalDateTime endCreateDate,
-            @JsonProperty(value="startUpdateDate", required=false) LocalDateTime startUpdateDate,
-            @JsonProperty(value="endUpdateDate", required=false) LocalDateTime endUpdateDate) {
+            @JsonProperty(value = "searchString", required = false) String searchString,
+            @JsonProperty(value = "pageSize", required = true) int pageSize,
+            @JsonProperty(value = "pageNumber", required = true) int pageNumber,
+            @JsonProperty(value = "sort", required = false) String sort,
+            @JsonProperty(value = "startCreateDate", required = false) LocalDateTime startCreateDate,
+            @JsonProperty(value = "endCreateDate", required = false) LocalDateTime endCreateDate,
+            @JsonProperty(value = "startUpdateDate", required = false) LocalDateTime startUpdateDate,
+            @JsonProperty(value = "endUpdateDate", required = false) LocalDateTime endUpdateDate) {
         this.searchString = searchString;
         this.pageSize = pageSize;
         this.pageNumber = pageNumber;
-        if (startCreateDate != null) {
-            this.startCreateDate = startCreateDate;
-        }
-        if (endCreateDate != null) {
-            this.endCreateDate = endCreateDate;
-        }
-        if (startUpdateDate != null) {
-            this.startUpdateDate = startUpdateDate;
-        }
-        if (endUpdateDate != null) {
-            this.endUpdateDate = endUpdateDate;
-        }
+        this.sort = sort;
+        this.startCreateDate = startCreateDate;
+        this.endCreateDate = endCreateDate;
+        this.startUpdateDate = startUpdateDate;
+        this.endUpdateDate = endUpdateDate;
     }
 
     public String getSearchString() {
@@ -50,21 +42,18 @@ public class RawTextSearchRequestDto {
         return this;
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
     public RawTextSearchRequestDto setPageSize(int pageSize) {
         this.pageSize = pageSize;
         return this;
     }
 
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
     public RawTextSearchRequestDto setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
+        return this;
+    }
+
+    public RawTextSearchRequestDto setSort(String sort) {
+        this.sort = sort;
         return this;
     }
 

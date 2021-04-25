@@ -2,9 +2,9 @@ package com.matthewjohnson42.memexService.data.dto;
 
 public class PageRequestDto {
 
-    private int pageSize;
-    private int pageNumber;
-    private String sort;
+    protected int pageSize;
+    protected int pageNumber;
+    protected String sort;
 
     PageRequestDto() { }
 
