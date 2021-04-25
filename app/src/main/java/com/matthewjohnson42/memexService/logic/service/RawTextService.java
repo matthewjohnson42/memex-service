@@ -1,5 +1,6 @@
 package com.matthewjohnson42.memexService.logic.service;
 
+import com.matthewjohnson42.memexService.data.converter.RawTextDtoSearchResponseDtoConverter;
 import com.matthewjohnson42.memexService.data.dto.IdListDto;
 import com.matthewjohnson42.memexService.data.dto.PageRequestDto;
 import com.matthewjohnson42.memexService.data.dto.RawTextDto;
@@ -8,15 +9,14 @@ import com.matthewjohnson42.memexService.data.dto.RawTextSearchResponseDto;
 import com.matthewjohnson42.memexService.data.elasticsearch.service.RawTextESService;
 import com.matthewjohnson42.memexService.data.mongo.service.RawTextMongoService;
 import com.matthewjohnson42.memexService.logic.util.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-// todo make generic in the type of the DTO being returned
 /**
  * Service implementing raw text functions that operate across repository types.
  * Intended interface for DataServices.
@@ -26,10 +26,14 @@ public class RawTextService {
 
     private RawTextESService rawTextESService;
     private RawTextMongoService rawTextMongoService;
+    private RawTextDtoSearchResponseDtoConverter rawTextDtoSearchResponseDtoConverter;
 
-    public RawTextService(RawTextESService rawTextESService, RawTextMongoService rawTextMongoService) {
+    public RawTextService(RawTextESService rawTextESService,
+                          RawTextMongoService rawTextMongoService,
+                          RawTextDtoSearchResponseDtoConverter rawTextDtoSearchResponseDtoConverter) {
         this.rawTextESService = rawTextESService;
         this.rawTextMongoService = rawTextMongoService;
+        this.rawTextDtoSearchResponseDtoConverter = rawTextDtoSearchResponseDtoConverter;
     }
 
     public RawTextDto create(RawTextDto rawTextDto) {
@@ -66,10 +70,7 @@ public class RawTextService {
     }
 
     public Page<RawTextDto> getPage(PageRequestDto pageRequestDto) {
-        return rawTextMongoService.getPage(
-                PageRequest.of(pageRequestDto.getPageNumber(),
-                pageRequestDto.getPageSize(),
-                Sort.by(Sort.Direction.fromString(pageRequestDto.getSort()), "_id")));
+        return rawTextMongoService.getPage(pageRequestDto);
     }
 
     public void deleteMany(IdListDto idListDto) {
@@ -82,8 +83,17 @@ public class RawTextService {
                 });
     }
 
-    public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchDto) {
-        return rawTextESService.search(rawTextSearchDto);
+    public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchRequestDto) {
+        if (org.springframework.util.StringUtils.isEmpty(rawTextSearchRequestDto.getSearchString())) {
+            Page<RawTextDto> dtoPage = rawTextMongoService.getPage(rawTextSearchRequestDto);
+            List<RawTextSearchResponseDto> responseDtos = new ArrayList<>();
+            dtoPage.getContent().forEach(rawTextDto -> {
+                responseDtos.add(rawTextDtoSearchResponseDtoConverter.convertDtoType1(rawTextDto));
+            });
+            return new PageImpl<>(responseDtos, dtoPage.getPageable(), dtoPage.getTotalElements());
+        } else {
+            return rawTextESService.search(rawTextSearchRequestDto);
+        }
     }
 
 }
