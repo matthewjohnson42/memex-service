@@ -37,8 +37,12 @@ public class ElasticSearchConfiguration {
         return readResource("elasticsearchqueries/rawTextSearchById.json");
     }
 
-    public String getRawTextSearchByTextContent() {
-        return readResource("elasticsearchqueries/rawTextSearchByTextContent.json");
+    public String getRawTextSearchByTextContentFuzzy() {
+        return readResource("elasticsearchqueries/rawTextSearchByTextContentFuzzy.json");
+    }
+
+    public String getRawTextSearchByTextContentWildcard() {
+        return readResource("elasticsearchqueries/rawTextSearchByTextContentWildcard.json");
     }
 
     private String readResource(String resource) {

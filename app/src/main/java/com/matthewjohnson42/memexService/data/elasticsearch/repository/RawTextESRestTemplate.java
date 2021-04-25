@@ -40,17 +40,19 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
     private String rawTextDocUrl;
     private String rawTextSearchUrl;
     private final String rawTextSearchByIdQuery;
-    private final String rawTextSearchByTextContentQuery;
-    private final String rawTextCreateIndexCommand;
+    private final String rawTextSearchByTextContentFuzzyQuery;
+    private final String rawTextSearchByTextContentWildcardQuery;
+
+    private final Integer fuzziness = 1;
 
     public RawTextESRestTemplate(ElasticSearchConfiguration config) {
+        super(config.getRawTextCreateIndex());
         this.rawTextSearchByIdQuery = config.getRawTextSearchById();
-        this.rawTextSearchByTextContentQuery = config.getRawTextSearchByTextContent();
-        this.rawTextCreateIndexCommand = config.getRawTextCreateIndex();
+        this.rawTextSearchByTextContentFuzzyQuery = config.getRawTextSearchByTextContentFuzzy();
+        this.rawTextSearchByTextContentWildcardQuery = config.getRawTextSearchByTextContentWildcard();
         rawTextUrl = String.format("http://%s:%s/rawtext", config.getHostName(), config.getHostPort());
         rawTextSearchUrl = String.format("http://%s:%s/rawtext/_search", config.getHostName(), config.getHostPort());
         rawTextDocUrl = String.format("http://%s:%s/rawtext/_doc/{id}", config.getHostName(), config.getHostPort());
-        initIndex();
     }
 
     public Optional<RawTextES> findById(String id) {
@@ -86,24 +88,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
             LocalDateTime startUpdateDate,
             LocalDateTime endUpdateDate,
             Pageable pageable) {
-        Assert.hasLength(searchString, "Search string cannot be null or the empty string");
-        Assert.notNull(pageable, "Pageable cannot be null");
-        Integer startIndex = pageable.getPageNumber() * pageable.getPageSize();
-        Integer pageSize = pageable.getPageSize();
-        Integer fuzziness = 1;
-        String startCreate = startCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(startCreateDate) + "\"";
-        String endCreate = endCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(endCreateDate) + "\"";
-        String startUpdate = startUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(startUpdateDate) + "\"";
-        String endUpdate = endUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(endUpdateDate) + "\"";
-        String query = String.format(rawTextSearchByTextContentQuery,
-                startIndex,
-                pageSize,
-                searchString,
-                fuzziness,
-                startCreate,
-                endCreate,
-                startUpdate,
-                endUpdate);
+        String query = getSearchQuery(searchString, startCreateDate, endCreateDate, startUpdateDate, endUpdateDate, pageable);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity(query, headers);
@@ -116,6 +101,31 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
             pageContent.add(rawTextESComposite);
         }
         return new PageImpl<>(pageContent, pageable, totalHits);
+    }
+
+    private String getSearchQuery(String searchString,
+                                  LocalDateTime startCreateDate,
+                                  LocalDateTime endCreateDate,
+                                  LocalDateTime startUpdateDate,
+                                  LocalDateTime endUpdateDate,
+                                  Pageable pageable) {
+        Assert.hasLength(searchString, "Search string cannot be null or the empty string");
+        Assert.notNull(pageable, "Pageable cannot be null");
+        Integer startIndex = pageable.getPageNumber() * pageable.getPageSize();
+        Integer pageSize = pageable.getPageSize();
+        String startCreate = startCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(startCreateDate) + "\"";
+        String endCreate = endCreateDate == null ? "null" : "\"" + dateTimeFormatter.format(endCreateDate) + "\"";
+        String startUpdate = startUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(startUpdateDate) + "\"";
+        String endUpdate = endUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(endUpdateDate) + "\"";
+        if (searchString.matches("[^\\\\]\\*")) {
+            logger.info("Search string matches wildcard regex");
+            return String.format(rawTextSearchByTextContentWildcardQuery,
+                    startIndex, pageSize, searchString, startCreate, endCreate, startUpdate, endUpdate, searchString);
+        } else {
+            logger.info("Search string does not match wildcard regex");
+            return String.format(rawTextSearchByTextContentFuzzyQuery,
+                    startIndex, pageSize, searchString, fuzziness, startCreate, endCreate, startUpdate, endUpdate);
+        }
     }
 
     public void initIndex() {
@@ -136,7 +146,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
             logger.info("Did not find existing ElasticSearch index \"rawText\", proceeding with creation");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity(rawTextCreateIndexCommand, headers);
+            HttpEntity<String> request = new HttpEntity(createIndexCommand, headers);
             put(rawTextUrl, request);
             logger.info("Created ElasticSearch index \"rawText\"");
         }

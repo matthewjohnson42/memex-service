@@ -83,15 +83,7 @@ public class RawTextService {
     }
 
     public Page<RawTextSearchResponseDto> search(RawTextSearchRequestDto rawTextSearchDto) {
-        return rawTextESService.search(
-                rawTextSearchDto.getSearchString(),
-                rawTextSearchDto.getStartCreateDate(),
-                rawTextSearchDto.getEndCreateDate(),
-                rawTextSearchDto.getStartUpdateDate(),
-                rawTextSearchDto.getEndUpdateDate(),
-                PageRequest.of(rawTextSearchDto.getPageNumber(),
-                        rawTextSearchDto.getPageSize(),
-                        Sort.by(Sort.Direction.DESC, "_score")));
+        return rawTextESService.search(rawTextSearchDto);
     }
 
 }

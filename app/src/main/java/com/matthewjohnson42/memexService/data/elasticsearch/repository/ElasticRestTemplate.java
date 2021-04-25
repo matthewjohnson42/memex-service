@@ -18,6 +18,13 @@ public abstract class ElasticRestTemplate<ID, E extends Entity<ID>> extends Rest
     private String format = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     protected DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendPattern(format).toFormatter();
 
-    public abstract void initIndex();
+    protected final String createIndexCommand;
+
+    public ElasticRestTemplate(String createIndexCommand) {
+        this.createIndexCommand = createIndexCommand;
+        initIndex();
+    }
+
+    protected abstract void initIndex();
 
 }
