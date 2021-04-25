@@ -6,11 +6,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 /**
  * Class that provides a MongoClient for connecting to MongoDB and a MongoTemplate for making modifications to Mongo
  */
 @Configuration
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
+
+    public static LocalDateTime MIN_TIME = LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(Long.MIN_VALUE), ZoneId.of(System.getProperty("user.timezone")));
+
+    public static LocalDateTime MAX_TIME = LocalDateTime.ofInstant(
+            Instant.ofEpochMilli(Long.MAX_VALUE), ZoneId.of(System.getProperty("user.timezone")));
 
     @Value("${db.mongo.host}")
     private String hostName;
