@@ -3,7 +3,6 @@ package com.matthewjohnson42.memexService.web.controller;
 import com.matthewjohnson42.memexService.data.dto.AuthRequestDto;
 import com.matthewjohnson42.memexService.data.dto.AuthResponseDto;
 import com.matthewjohnson42.memexService.logic.service.AuthService;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     AuthService authService;
-    Environment environment;
 
-    public AuthController(AuthService authService,
-                          Environment environment) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
-        this.environment = environment;
     }
 
     @RequestMapping(method=RequestMethod.POST)
