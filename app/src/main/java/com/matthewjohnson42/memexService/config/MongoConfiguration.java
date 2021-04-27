@@ -17,7 +17,7 @@ import java.time.ZoneId;
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
     public static LocalDateTime MIN_TIME = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(Long.MIN_VALUE), ZoneId.of(System.getProperty("user.timezone")));
+            Instant.ofEpochMilli(0), ZoneId.of(System.getProperty("user.timezone")));
 
     public static LocalDateTime MAX_TIME = LocalDateTime.ofInstant(
             Instant.ofEpochMilli(Long.MAX_VALUE), ZoneId.of(System.getProperty("user.timezone")));
