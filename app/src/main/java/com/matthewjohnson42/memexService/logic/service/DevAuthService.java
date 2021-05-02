@@ -17,11 +17,12 @@ import java.util.HashSet;
 @Profile("dev")
 @Service
 public class DevAuthService extends AuthService {
+
     public AuthResponseDto processAuthenticationRequest(AuthRequestDto authRequestDto) {
         PlainHeader jwtHeader = new PlainHeader();
         JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
                 .issuer("memex-service")
-                .expirationTime(new Date(System.currentTimeMillis() + 86400000))
+                .expirationTime(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_INTERVAL))
                 .subject(authRequestDto.getUsername()).build();
         PlainJWT jwt = new PlainJWT(jwtHeader, jwtClaims);
         return new AuthResponseDto().setToken(jwt.serialize());
