@@ -49,6 +49,11 @@
       docker/Dockerfile, and scripts/entrypoint.sh -->
       <version>1.68</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.matthewjohnson42</groupId>
+      <artifactId>memex-data</artifactId>
+      <version>0.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>
