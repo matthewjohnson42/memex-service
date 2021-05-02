@@ -69,7 +69,7 @@ public class ProdAuthService extends AuthService {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256); // move to common location
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
                 .issuer("memex-service")
-                .expirationTime(new Date(System.currentTimeMillis() + 3600000))
+                .expirationTime(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_INTERVAL))
                 .subject(userDetailsDto.getUsername());
         for (String authority: userDetailsDto.getAuthorities()) {
             builder.claim("Authority", authority);

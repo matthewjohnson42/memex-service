@@ -13,6 +13,9 @@ import java.util.Collection;
  * Abstract AuthService to account for multiple run environments
  */
 public abstract class AuthService {
+
+    protected final long TOKEN_VALIDITY_INTERVAL = (long) 7 * 24 * 60 * 60 * 1000; // 1 week
+
     abstract public AuthResponseDto processAuthenticationRequest(AuthRequestDto authRequestDto) throws JOSEException, CredentialException;
 
     abstract public Collection<GrantedAuthority> getAuthorities(Jwt jwt);
