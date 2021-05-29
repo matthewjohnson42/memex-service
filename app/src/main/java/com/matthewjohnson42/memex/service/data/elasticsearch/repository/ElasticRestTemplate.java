@@ -1,6 +1,6 @@
 package com.matthewjohnson42.memex.service.data.elasticsearch.repository;
 
-import com.matthewjohnson42.memex.service.config.ElasticSearchConfiguration;
+import com.matthewjohnson42.memex.service.config.AbstractElasticConfiguration;
 import com.matthewjohnson42.memex.service.data.Entity;
 import com.matthewjohnson42.memex.service.data.Repository;
 import org.slf4j.Logger;
@@ -31,10 +31,10 @@ public abstract class ElasticRestTemplate<ID, E extends Entity<ID>> extends Rest
     protected final String entityDocUrl;
     protected final String entitySearchUrl;
 
-    public ElasticRestTemplate(ElasticSearchConfiguration config) {
+    public ElasticRestTemplate(AbstractElasticConfiguration config) {
         assert this.getClass().getSimpleName().endsWith("ESRestTemplate") : "Ancestors of ElasticRestTemplate must have class name suffix of 'ESRestTemplate' and a prefix of the entity type";
         entityName = this.getClass().getSimpleName().replace("ESRestTemplate", "").toLowerCase();
-        createIndexCommand = config.getRawTextCreateIndex();
+        createIndexCommand = config.getCreateIndex();
         entityUrl = String.format("http://%s:%s/%s", config.getHostName(), config.getHostPort(), entityName);
         entityDocUrl = String.format("http://%s:%s/%s/_doc/{id}", config.getHostName(), config.getHostPort(), entityName);
         entitySearchUrl = String.format("http://%s:%s/%s/_search", config.getHostName(), config.getHostPort(), entityName);
