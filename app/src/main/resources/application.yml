@@ -14,3 +14,5 @@ security:
 
 cors:
   allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com"
+
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
