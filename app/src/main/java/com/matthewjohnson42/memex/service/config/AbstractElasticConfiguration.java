@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Configuration
-public class ElasticSearchConfiguration {
+public abstract class AbstractElasticConfiguration {
 
-    Logger logger = LoggerFactory.getLogger(ElasticSearchConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${db.elasticsearch.hostname}")
     private String hostName;
@@ -21,27 +21,21 @@ public class ElasticSearchConfiguration {
     @Value("${db.elasticsearch.port}")
     private String hostPort;
 
-    public String getHostName() {
+    protected String createIndexResourceFile;
+
+    public final String getHostName() {
         return hostName;
     }
 
-    public String getHostPort() {
+    public final String getHostPort() {
         return hostPort;
     }
 
-    public String getRawTextCreateIndex() {
-        return readResource("elasticsearchqueries/rawTextCreateIndex.json");
+    public String getCreateIndex() {
+        return readResource(createIndexResourceFile);
     }
 
-    public String getRawTextSearchById() {
-        return readResource("elasticsearchqueries/rawTextSearchById.json");
-    }
-
-    public String getRawTextSearchByTextContentFuzzy() {
-        return readResource("elasticsearchqueries/rawTextSearchByTextContentFuzzy.json");
-    }
-
-    private String readResource(String resource) {
+    protected String readResource(String resource) {
         StringBuilder sb = new StringBuilder();
         ClassPathResource classPathResource = new ClassPathResource(resource);
         try {
