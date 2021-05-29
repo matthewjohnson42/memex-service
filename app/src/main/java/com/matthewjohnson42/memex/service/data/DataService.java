@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * Describes a data service used for implementing persistence "business" logic and transforming an entity to a DTO
+ * Describes a data service used for implementing application persistence logic and transforming an entity to a DTO
  * @param <ID> class of the ID used by both the DTO and the Entity
  * @param <D> class of the DTO, used for data transformations and serialization
  * @param <E> class of the Entity, used for data persistence
@@ -39,15 +39,11 @@ public abstract class DataService<ID, D extends DtoForEntity<ID>, E extends Enti
     // pass in date time to allow non-assignment in converter
     public D create(D dto, LocalDateTime createDateTime) {
         E entity = converter.convertDto(dto);
-        if (entity.getId() == null) {
-            String msg = String.format("No id found for entity of type %s", entity.getClass().toString());
-            logger.error(msg);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, msg);
-        }
+        checkId(entity);
         entity.setCreateDateTime(createDateTime);
         entity.setUpdateDateTime(createDateTime);
         entity = repository.save(entity);
-        logger.info(String.format("Wrote new %s object with id %s", entity.getClass(), entity.getId()));
+        logger.info("Wrote new object with class {} and id {}", entity.getClass(), entity.getId());
         return converter.convertEntity(entity);
     }
 
@@ -58,15 +54,10 @@ public abstract class DataService<ID, D extends DtoForEntity<ID>, E extends Enti
     // pass in date time to allow non-assignment in converter
     public D update(D dto, LocalDateTime updateDateTime) {
         E entity = getIfExists(dto.getId());
-        if (entity.getId() == null) {
-            String msg = String.format("No id found for entity of type %s", entity.getClass().toString());
-            logger.error(msg);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, msg);
-        }
         entity = converter.updateFromDto(entity, dto);
         entity.setUpdateDateTime(updateDateTime);
         entity = repository.save(entity);
-        logger.info(String.format("Updated %s object with id %s", entity.getClass(), entity.getId()));
+        logger.info("Updated values on object with class {} and id {}", entity.getClass(), entity.getId());
         return converter.convertEntity(entity);
     }
 
@@ -77,7 +68,7 @@ public abstract class DataService<ID, D extends DtoForEntity<ID>, E extends Enti
     public D deleteById(ID id) {
         E entity = getIfExists(id);
         repository.deleteById(id);
-        logger.info(String.format("Deleted %s object with id %s", entity.getClass(), id));
+        logger.info("Deleted object with class {} and id {}", entity.getClass(), id);
         return converter.convertEntity(entity);
     }
 
@@ -97,6 +88,14 @@ public abstract class DataService<ID, D extends DtoForEntity<ID>, E extends Enti
             String msg = String.format("No entity found for id %s", id.toString());
             logger.error(msg);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, msg);
+        }
+    }
+
+    private void checkId(E entity) {
+        if (entity.getId() == null) {
+            String msg = String.format("No id found for entity of type %s", entity.getClass().toString());
+            logger.error(msg);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, msg);
         }
     }
 
