@@ -1,6 +1,6 @@
 package com.matthewjohnson42.memex.service.data.elasticsearch.repository;
 
-import com.matthewjohnson42.memex.service.config.ElasticSearchConfiguration;
+import com.matthewjohnson42.memex.service.config.RawTextElasticConfiguration;
 import com.matthewjohnson42.memex.service.data.Repository;
 import com.matthewjohnson42.memex.service.data.elasticsearch.entity.RawTextES;
 import com.matthewjohnson42.memex.service.data.elasticsearch.entity.RawTextESComposite;
@@ -35,7 +35,7 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
 
     private final Integer fuzziness = 1;
 
-    public RawTextESRestTemplate(ElasticSearchConfiguration config) {
+    public RawTextESRestTemplate(RawTextElasticConfiguration config) {
         super(config);
         this.rawTextSearchByIdQuery = config.getRawTextSearchById();
         this.rawTextSearchByTextContentFuzzyQuery = config.getRawTextSearchByTextContentFuzzy();
@@ -105,10 +105,6 @@ public class RawTextESRestTemplate extends ElasticRestTemplate<String, RawTextES
         String endUpdate = endUpdateDate == null ? "null" : "\"" + dateTimeFormatter.format(endUpdateDate) + "\"";
         return String.format(rawTextSearchByTextContentFuzzyQuery,
                     startIndex, pageSize, searchString, fuzziness, startCreate, endCreate, startUpdate, endUpdate);
-    }
-
-    protected void initIndex() {
-
     }
 
 }
