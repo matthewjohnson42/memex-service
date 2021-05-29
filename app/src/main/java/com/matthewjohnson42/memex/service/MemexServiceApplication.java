@@ -5,8 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.matthewjohnson42.memex.data.SimpleDto;
-
 import java.security.Security;
 
 /**
@@ -17,7 +15,6 @@ import java.security.Security;
 public class MemexServiceApplication {
 
 	public static void main(String[] args) {
-		System.out.println(new SimpleDto().getSimpleClassMemberVariable());
 		Security.addProvider(BouncyCastleProviderSingleton.getInstance());
 		SpringApplication.run(MemexServiceApplication.class);
 	}
