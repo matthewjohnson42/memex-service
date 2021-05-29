@@ -22,7 +22,7 @@ if [[ -z ${USERPASS_ENC_KEY_SECRET} ]]; then
 fi
 
 if [[ -z ${SPRING_PROFILES_ACTIVE} ]]; then
-  echo "Enter value for SPRING_PROFILES_ACTIVE (empty for dev): "
+  echo "Enter value for SPRING_PROFILES_ACTIVE (dev, prod, something else): "
   read SPRING_PROFILES_ACTIVE
   export SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
 fi
