@@ -1,6 +1,6 @@
 package com.matthewjohnson42.memex.service.data.mongo.entity;
 
-import com.matthewjohnson42.memex.service.data.Entity;
+import com.matthewjohnson42.memex.data.entity.Entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

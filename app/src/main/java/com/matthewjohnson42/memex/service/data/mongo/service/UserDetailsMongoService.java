@@ -1,10 +1,10 @@
 package com.matthewjohnson42.memex.service.data.mongo.service;
 
+import com.matthewjohnson42.memex.data.service.DataService;
 import com.matthewjohnson42.memex.service.data.converter.UserDetailsMongoConverter;
 import com.matthewjohnson42.memex.service.data.mongo.repository.UserDetailsMongoRepo;
 import com.matthewjohnson42.memex.service.data.dto.UserDetailsDto;
 import com.matthewjohnson42.memex.service.data.mongo.entity.UserDetailsMongo;
-import com.matthewjohnson42.memex.service.data.DataService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,15 +1,18 @@
 package com.matthewjohnson42.memex.service.data.elasticsearch.service;
 
-import com.matthewjohnson42.memex.service.data.elasticsearch.repository.RawTextESRestTemplate;
+import com.matthewjohnson42.memex.data.converter.RawTextESConverter;
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
+import com.matthewjohnson42.memex.data.entity.elasticsearch.RawTextES;
+import com.matthewjohnson42.memex.data.entity.elasticsearch.RawTextESComposite;
+import com.matthewjohnson42.memex.data.repository.elasticsearch.RawTextESRestTemplate;
+import com.matthewjohnson42.memex.data.service.DataService;
 import com.matthewjohnson42.memex.service.data.converter.RawTextESCompositeConverter;
-import com.matthewjohnson42.memex.service.data.converter.RawTextESConverter;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchResponseDto;
-import com.matthewjohnson42.memex.service.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.memex.service.data.elasticsearch.entity.RawTextESComposite;
-import com.matthewjohnson42.memex.service.data.DataService;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

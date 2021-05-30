@@ -1,5 +1,7 @@
 package com.matthewjohnson42.memex.service.data.dto;
 
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
+
 import java.util.ArrayList;
 import java.util.List;
 

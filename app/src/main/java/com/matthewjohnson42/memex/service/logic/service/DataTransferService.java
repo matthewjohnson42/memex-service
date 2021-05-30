@@ -1,17 +1,16 @@
 package com.matthewjohnson42.memex.service.logic.service;
 
-import com.matthewjohnson42.memex.service.data.DtoEntityConverter;
-import com.matthewjohnson42.memex.service.data.DtoForEntity;
-import com.matthewjohnson42.memex.service.data.Entity;
-import com.matthewjohnson42.memex.service.data.Repository;
-import com.matthewjohnson42.memex.service.data.converter.RawTextESConverter;
-import com.matthewjohnson42.memex.service.data.converter.RawTextMongoConverter;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
-import com.matthewjohnson42.memex.service.data.elasticsearch.entity.RawTextES;
-import com.matthewjohnson42.memex.service.data.elasticsearch.repository.ElasticRestTemplate;
-import com.matthewjohnson42.memex.service.data.elasticsearch.repository.RawTextESRestTemplate;
-import com.matthewjohnson42.memex.service.data.mongo.entity.RawTextMongo;
-import com.matthewjohnson42.memex.service.data.mongo.repository.RawTextMongoRepo;
+import com.matthewjohnson42.memex.data.converter.DtoEntityConverter;
+import com.matthewjohnson42.memex.data.converter.RawTextESConverter;
+import com.matthewjohnson42.memex.data.converter.RawTextMongoConverter;
+import com.matthewjohnson42.memex.data.dto.DtoForEntity;
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
+import com.matthewjohnson42.memex.data.entity.Entity;
+import com.matthewjohnson42.memex.data.entity.elasticsearch.RawTextES;
+import com.matthewjohnson42.memex.data.entity.mongo.RawTextMongo;
+import com.matthewjohnson42.memex.data.repository.elasticsearch.ElasticRestTemplate;
+import com.matthewjohnson42.memex.data.repository.elasticsearch.RawTextESRestTemplate;
+import com.matthewjohnson42.memex.data.repository.mongo.RawTextMongoRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +25,7 @@ import java.util.List;
 
 /**
  * Service that implements data transfer logic between Repositories.
- * @see Repository
+ * @see com.matthewjohnson42.memex.data.repository.Repository
  */
 @Service
 public class DataTransferService implements ApplicationContextAware {
