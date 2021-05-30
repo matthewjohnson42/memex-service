@@ -8,6 +8,8 @@
     <name>Memex Service Parent Project</name>
     <packaging>pom</packaging>
     <properties>
+        <!-- in lieu of a published parent pom, should be kept consistent with matthewjohnson42:memex-data -->
+        <!-- todo split into parent pom -->
         <springbootVersion>2.3.0</springbootVersion>
         <java.version>11</java.version>
     </properties>
