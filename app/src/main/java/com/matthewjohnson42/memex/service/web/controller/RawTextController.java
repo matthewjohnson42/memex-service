@@ -1,10 +1,10 @@
 package com.matthewjohnson42.memex.service.web.controller;
 
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.logic.service.DataTransferService;
 import com.matthewjohnson42.memex.service.logic.service.RawTextService;
 import com.matthewjohnson42.memex.service.data.dto.IdListDto;
 import com.matthewjohnson42.memex.service.data.dto.PageRequestDto;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchResponseDto;
 import org.springframework.data.domain.Page;

@@ -1,16 +1,17 @@
 package com.matthewjohnson42.memex.service.logic.service;
 
-import com.matthewjohnson42.memex.service.config.MongoConfiguration;
+import com.matthewjohnson42.memex.data.config.MongoConfiguration;
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.converter.RawTextDtoSearchResponseDtoConverter;
 import com.matthewjohnson42.memex.service.data.dto.IdListDto;
 import com.matthewjohnson42.memex.service.data.dto.PageRequestDto;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchRequestDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchResponseDto;
 import com.matthewjohnson42.memex.service.data.elasticsearch.service.RawTextESService;
 import com.matthewjohnson42.memex.service.data.mongo.service.RawTextMongoService;
 import com.matthewjohnson42.memex.service.logic.util.StringUtils;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

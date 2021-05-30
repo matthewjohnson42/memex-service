@@ -3,7 +3,7 @@ package com.matthewjohnson42.memex.service.data.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.matthewjohnson42.memex.service.data.DtoForEntity;
+import com.matthewjohnson42.memex.data.dto.DtoForEntity;
 
 import java.util.HashSet;
 import java.util.Set;

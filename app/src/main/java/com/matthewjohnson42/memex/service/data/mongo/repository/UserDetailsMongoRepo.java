@@ -1,6 +1,6 @@
 package com.matthewjohnson42.memex.service.data.mongo.repository;
 
-import com.matthewjohnson42.memex.service.data.Repository;
+import com.matthewjohnson42.memex.data.repository.Repository;
 import com.matthewjohnson42.memex.service.data.mongo.entity.UserDetailsMongo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

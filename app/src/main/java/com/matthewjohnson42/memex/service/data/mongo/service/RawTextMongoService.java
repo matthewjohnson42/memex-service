@@ -1,12 +1,12 @@
 package com.matthewjohnson42.memex.service.data.mongo.service;
 
-import com.matthewjohnson42.memex.service.data.converter.RawTextMongoConverter;
-import com.matthewjohnson42.memex.service.data.mongo.repository.RawTextMongoRepo;
+import com.matthewjohnson42.memex.data.converter.RawTextMongoConverter;
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
+import com.matthewjohnson42.memex.data.entity.mongo.RawTextMongo;
+import com.matthewjohnson42.memex.data.service.DataService;
 import com.matthewjohnson42.memex.service.data.dto.PageRequestDto;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchRequestDto;
-import com.matthewjohnson42.memex.service.data.mongo.entity.RawTextMongo;
-import com.matthewjohnson42.memex.service.data.DataService;
+import com.matthewjohnson42.memex.service.data.mongo.repository.RawTextMongoRepoInstance;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,9 +20,9 @@ import java.util.List;
 @Service
 public class RawTextMongoService extends DataService<String, RawTextDto, RawTextMongo> {
 
-    private RawTextMongoRepo rawTextMongoRepo;
+    private RawTextMongoRepoInstance rawTextMongoRepo;
 
-    public RawTextMongoService(RawTextMongoConverter rawTextMongoConverter, RawTextMongoRepo rawTextMongoRepo) {
+    public RawTextMongoService(RawTextMongoConverter rawTextMongoConverter, RawTextMongoRepoInstance rawTextMongoRepo) {
         super(rawTextMongoConverter, rawTextMongoRepo);
         this.rawTextMongoRepo = rawTextMongoRepo;
     }

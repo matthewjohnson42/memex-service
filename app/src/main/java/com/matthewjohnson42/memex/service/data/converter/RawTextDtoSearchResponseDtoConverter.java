@@ -1,7 +1,7 @@
 package com.matthewjohnson42.memex.service.data.converter;
 
-import com.matthewjohnson42.memex.service.data.DtoConverter;
-import com.matthewjohnson42.memex.service.data.dto.RawTextDto;
+import com.matthewjohnson42.memex.data.converter.DtoConverter;
+import com.matthewjohnson42.memex.data.dto.RawTextDto;
 import com.matthewjohnson42.memex.service.data.dto.RawTextSearchResponseDto;
 import org.springframework.stereotype.Component;
 

@@ -1,3 +1,5 @@
+spring.profiles.include: enablemongorepositories,enableelasticrepositories
+
 db:
   mongo:
     host: ${MONGO_HOST:localhost}

@@ -1,6 +1,6 @@
 package com.matthewjohnson42.memex.service.data.converter;
 
-import com.matthewjohnson42.memex.service.data.DtoEntityConverter;
+import com.matthewjohnson42.memex.data.converter.DtoEntityConverter;
 import com.matthewjohnson42.memex.service.data.dto.UserDetailsDto;
 import com.matthewjohnson42.memex.service.data.mongo.entity.UserDetailsMongo;
 import org.springframework.security.crypto.password.PasswordEncoder;
