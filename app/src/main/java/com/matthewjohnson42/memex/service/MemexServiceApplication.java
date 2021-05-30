@@ -10,7 +10,6 @@ import java.security.Security;
 /**
  * An application for storing text data in a Mongo database with ElasticSearch for search
  */
-@EnableMongoRepositories
 @SpringBootApplication
 public class MemexServiceApplication {
 
