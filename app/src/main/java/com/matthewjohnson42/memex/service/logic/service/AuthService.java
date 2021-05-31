@@ -27,7 +27,7 @@ import java.util.HashSet;
 public class AuthService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final long TOKEN_VALIDITY_INTERVAL = (long) 7 * 24 * 60 * 60 * 1000; // 1 week
+    private final long TOKEN_VALIDITY_INTERVAL = (long) 7 * 24 * 60 * 60 * 1000;
 
     private final MACSigner macSigner;
     private final PasswordEncoder passwordEncoder;
@@ -65,7 +65,7 @@ public class AuthService {
     }
 
     private SignedJWT getSignedJwt(UserDetailsDto userDetailsDto) throws JOSEException {
-        JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256); // move to common location
+        JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder()
                 .issuer("memex-service")
                 .expirationTime(new Date(System.currentTimeMillis() + TOKEN_VALIDITY_INTERVAL))
