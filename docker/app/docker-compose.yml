@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   memex-service:
-    image: memex-service:0.0.1
+    image: memex-service:1.0.0
     container_name: memex-service
     environment:
       - MONGO_HOST=memex-mongo01

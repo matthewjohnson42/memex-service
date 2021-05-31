@@ -3,44 +3,25 @@
   <!-- maven module configurations -->
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.matthewjohnson42</groupId>
+    <groupId>com.github.matthewjohnson42</groupId>
     <artifactId>memex-parent</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.1</version>
   </parent>
   <artifactId>memex-app</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.1</version>
   <name>Memex Service App</name>
 
   <dependencies>
+    <!-- includes spring-boot-starter-web and spring-data-mongodb -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <version>${springbootVersion}.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-mongodb</artifactId>
-      <version>3.0.1.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongodb-driver-sync</artifactId>
-      <version>4.0.3</version>
+      <groupId>com.github.matthewjohnson42</groupId>
+      <artifactId>memex-spring-data</artifactId>
+      <version>2.0.15</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-      <version>${springbootVersion}.RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-oauth2-resource-server</artifactId>
-      <version>5.4.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-oauth2-jose</artifactId>
-      <version>5.4.2</version>
+      <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+      <version>${spring.boot.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
@@ -48,11 +29,6 @@
       <!-- if the version is changed, it should also be changed in scripts/docker-build.sh,
       docker/Dockerfile, and scripts/entrypoint.sh -->
       <version>1.68</version>
-    </dependency>
-    <dependency>
-      <groupId>com.github.matthewjohnson42</groupId>
-      <artifactId>memex-data</artifactId>
-      <version>2.0.0</version>
     </dependency>
   </dependencies>
 
@@ -64,12 +40,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.4</version>
         <dependencies>
           <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${springbootVersion}.RELEASE</version>
+            <version>${spring.boot.version}</version>
           </dependency>
         </dependencies>
         <executions>
@@ -103,14 +79,6 @@
           </execution>
         </executions>
       </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>${java.version}</source>
-                <target>${java.version}</target>
-            </configuration>
-        </plugin>
     </plugins>
   </build>
 

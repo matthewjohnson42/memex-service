@@ -15,6 +15,6 @@ security:
     encKeySecret: ${USERPASS_ENC_KEY_SECRET:notAtAll}
 
 cors:
-  allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com"
+  allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com, http://localhost:4200, https://localhost:4200"
 
 logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

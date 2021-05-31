@@ -29,7 +29,7 @@ fi
 
 # build
 mvn clean install -f ../app/pom.xml
-docker build --tag memex-service:0.0.1 --file app/Dockerfile ..
+docker build --tag memex-service:1.0.0 --file app/Dockerfile ..
 
 # start containers
 docker-compose --file mongo/docker-compose.yml up --detach
