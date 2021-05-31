@@ -30,7 +30,7 @@ public class DevWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.setMaxAge(1800L);
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**/*", corsConfiguration);
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return urlBasedCorsConfigurationSource;
     }
 

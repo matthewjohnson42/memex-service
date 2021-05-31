@@ -2,15 +2,17 @@
 
     <!-- maven project configurations -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.matthewjohnson42</groupId>
+    <parent>
+        <groupId>com.github.matthewjohnson42</groupId>
+        <artifactId>memex-spring-parent</artifactId>
+        <version>1.0.4</version>
+    </parent>
     <artifactId>memex-parent</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.1</version>
     <name>Memex Service Parent Project</name>
     <packaging>pom</packaging>
+
     <properties>
-        <!-- in lieu of a published parent pom, should be kept consistent with matthewjohnson42:memex-data -->
-        <!-- todo split into parent pom -->
-        <springbootVersion>2.3.0</springbootVersion>
         <java.version>11</java.version>
     </properties>
 
