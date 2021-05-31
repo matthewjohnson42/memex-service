@@ -1,6 +1,5 @@
 <project>
 
-  <!-- maven module configurations -->
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.github.matthewjohnson42</groupId>
@@ -12,7 +11,6 @@
   <name>Memex Service App</name>
 
   <dependencies>
-    <!-- includes spring-boot-starter-web and spring-data-mongodb -->
     <dependency>
       <groupId>com.github.matthewjohnson42</groupId>
       <artifactId>memex-spring-data</artifactId>
@@ -26,8 +24,6 @@
     <dependency>
       <groupId>org.bouncycastle</groupId>
       <artifactId>bcprov-jdk15on</artifactId>
-      <!-- if the version is changed, it should also be changed in scripts/docker-build.sh,
-      docker/Dockerfile, and scripts/entrypoint.sh -->
       <version>1.68</version>
     </dependency>
   </dependencies>
@@ -35,8 +31,6 @@
 
   <build>
     <plugins>
-      <!-- plugin for including shaded dependencies in compiled jar -->
-      <!-- also configures jar manifest and adds transformed spring dependency resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
