@@ -1,4 +1,3 @@
-
 package com.matthewjohnson42.memex.service.data.mongo.repository;
 
 import com.matthewjohnson42.memex.data.entity.mongo.RawTextMongo;
