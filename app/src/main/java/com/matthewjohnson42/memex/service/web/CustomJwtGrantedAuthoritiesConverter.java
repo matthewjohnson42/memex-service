@@ -1,4 +1,4 @@
-package com.matthewjohnson42.memex.service.web.filter.auth;
+package com.matthewjohnson42.memex.service.web;
 
 import com.matthewjohnson42.memex.service.logic.service.AuthService;
 import org.springframework.core.convert.converter.Converter;
