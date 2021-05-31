@@ -17,7 +17,6 @@ public class UserDetailsMongoService extends DataService<String, UserDetailsDto,
         super(converter, userDetailsMongoRepo);
     }
 
-    // password not loaded into DTO by converter
     public String getEncodedPasswordForUser(String username) {
         UserDetailsMongo userDetailsMongo = getIfExists(username);
         return userDetailsMongo.getPassword();
