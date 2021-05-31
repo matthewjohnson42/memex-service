@@ -1,6 +1,5 @@
 <project>
 
-    <!-- maven project configurations -->
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.matthewjohnson42</groupId>
@@ -21,7 +20,6 @@
         <module>docker</module>
     </modules>
 
-    <!-- maven remote repo configurations -->
     <repositories>
         <repository>
             <id>central</id>
@@ -54,7 +52,6 @@
 
     <build>
         <plugins>
-            <!-- plugin for compiling the source files -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
