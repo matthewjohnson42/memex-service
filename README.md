@@ -6,7 +6,7 @@ The purpose of the application is to store notes with tags so that those notes m
 
 The application makes extensive use of the Spring Boot framework.
 
-The application is hosted on AWS, and interacts with [memex-ui](https://github.com/matthewjohnson42/memex-ui) as its frontend.
+The application is hosted on AWS, uses Mongo DB and Elastic Search for data storage, and interacts with [memex-ui](https://github.com/matthewjohnson42/memex-ui) as its frontend.
 
 The configuration of the host on AWS is provided by [k8s-standalone](https://github.com/matthewjohnson42/k8s-standalone).
 
