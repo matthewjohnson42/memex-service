@@ -16,12 +16,10 @@ security:
 
 logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
 
+cors:
+  allowed-origins: "https://localhost:4200, http://localhost:4200"
+
 ---
 spring.config.activate.on-profile: prod
 cors:
   allowed-origins: "https://memex.matthewjohnson42.com, http://memex.matthewjohnson42.com"
-
----
-spring.config.activate.on-profile: dev
-cors:
-  allowed-origins: "https://localhost:4200, http://localhost:4200"
