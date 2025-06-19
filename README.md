@@ -7,6 +7,7 @@ The purpose of the application was to store notes with tags so that those notes 
 ### The application is not currently in use, and this repository is archived.
 
 
-The application makes extensive use of the Spring Boot framework, uses Mongo DB and Elastic Search for data storage, and interacts with [memex-ui](https://github.com/matthewjohnson42/memex-ui) as its frontend.
+The application interacts with [memex-ui](https://github.com/matthewjohnson42/memex-ui) as its frontend.
 
 To run the Java application, install Docker desktop, install maven, and run the [docker-compose-up.sh](https://github.com/matthewjohnson42/memex-service/docker/docker-compose-up.sh) script.
+
