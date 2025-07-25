@@ -11,10 +11,6 @@
     <name>Memex Service Parent Project</name>
     <packaging>pom</packaging>
 
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
     <modules>
         <module>app</module>
         <module>docker</module>
