@@ -62,11 +62,11 @@
                     <excludes>
                         <!-- Exclude all main source files that have missing dependencies except the service classes we want to test -->
                         <exclude>**/MemexServiceApplication.java</exclude>
-                        <exclude>**/config/**</exclude>
-                        <exclude>**/web/**</exclude>
-                        <exclude>**/converter/**</exclude>
-                        <exclude>**/mongo/**</exclude>
-                        <exclude>**/elasticsearch/**</exclude>
+                        <exclude>com/matthewjohnson42/memex/service/config/**/*.java</exclude>
+                        <exclude>com/matthewjohnson42/memex/service/web/**/*.java</exclude>
+                        <exclude>com/matthewjohnson42/memex/service/data/converter/**/*.java</exclude>
+                        <exclude>com/matthewjohnson42/memex/service/data/mongo/**/*.java</exclude>
+                        <exclude>com/matthewjohnson42/memex/service/data/elasticsearch/**/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
